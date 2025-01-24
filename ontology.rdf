@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:ex="http://example.org/chess/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <rdf:Description rdf:about="http://example.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg">
+    <ex:pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</ex:pawns>
+    <ex:bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</ex:bishops>
+    <ex:knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ex:knights>
+    <ex:rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</ex:rooks>
+    <ex:queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</ex:queens>
+    <ex:castling_rights>No castling available</ex:castling_rights>
+    <ex:en_passant_target_square>-</ex:en_passant_target_square>
+    <ex:active_color>-</ex:active_color>
+    <ex:fullmove_number rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ex:fullmove_number>
+  </rdf:Description>
+</rdf:RDF>
