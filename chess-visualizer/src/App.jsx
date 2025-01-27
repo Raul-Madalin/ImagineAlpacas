@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 import FilterPanel from './components/FilterPanel';
 import ImageGallery from './components/ImageGallery';
 
-const App = () => {
+const ChessOntologyApp = () => {
   const [images, setImages] = useState([]);
 
   return (
@@ -16,4 +16,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default ChessOntologyApp;

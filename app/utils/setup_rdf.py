@@ -7,7 +7,7 @@ def initialize_rdf():
     g = rdflib.Graph()
 
     # Define namespaces
-    EX = rdflib.Namespace("http://example.org/chess/")
+    EX = rdflib.Namespace("http://imaginealpacas.org/chess/")
     RDF = rdflib.RDF
 
     # Bind namespace to prefixes
