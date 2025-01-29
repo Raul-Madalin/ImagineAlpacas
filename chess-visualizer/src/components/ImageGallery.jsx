@@ -26,7 +26,7 @@ const ImageGallery = ({ images }) => {
         {currentImages.map((image, index) => (
           <img
             key={index}
-            src={`http://127.0.0.1:5000/images/${image.filename}`}
+            src={`http://127.0.0.1:5000/images/${image}`}
             alt={`Chessboard ${index}`}
             style={{ width: '100px', height: '100px' }}
           />

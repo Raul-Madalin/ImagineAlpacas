@@ -33,68 +33,60 @@ def search():
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
 
-    # Extract pieces from the query
-    pieces = query.split()
     piece_conditions = []
-    
-    # Map piece names to RDF property URIs
     piece_mapping = {
-        "pawns": "http://example.org/chess/pawns",
-        "rooks": "http://example.org/chess/rooks",
-        "queens": "http://example.org/chess/queens",
-        "bishops": "http://example.org/chess/bishops",
-        "knights": "http://example.org/chess/knights"
+        "pawns": ("chess:white_pieces_pawns", "chess:black_pieces_pawns"),
+        "rooks": ("chess:white_pieces_rooks", "chess:black_pieces_rooks"),
+        "queens": ("chess:white_pieces_queens", "chess:black_pieces_queens"),
+        "bishops": ("chess:white_pieces_bishops", "chess:black_pieces_bishops"),
+        "knights": ("chess:white_pieces_knights", "chess:black_pieces_knights")
     }
 
-    # Dynamically construct SPARQL conditions for the requested pieces
-    for piece in pieces:
-        piece_uri = piece_mapping.get(piece.lower())
-        if piece_uri:
-            piece_conditions.append(f"?image <{piece_uri}> ?{piece.lower()} . FILTER (?{piece.lower()} > 0)")
+    for piece in query.split():
+        if piece.lower() in piece_mapping:
+            white_piece, black_piece = piece_mapping[piece.lower()]
+            piece_conditions.append(f"""
+                OPTIONAL {{ ?white_pieces {white_piece} ?white_value . }}
+                OPTIONAL {{ ?black_pieces {black_piece} ?black_value . }}
+                FILTER (
+                    (?next_player = "white" && bound(?white_value) && ?white_value > 0)
+                    || 
+                    (?next_player = "black" && bound(?black_value) && ?black_value > 0)
+                )
+            """)
 
-    # Combine conditions into the SPARQL query
     sparql_query = f"""
-    PREFIX ex: <http://example.org/chess/>
-    SELECT ?image ?p ?r ?q ?b ?n WHERE {{
-        ?image ex:pawns ?p .
-        ?image ex:rooks ?r .
-        ?image ex:queens ?q .
-        ?image ex:bishops ?b .
-        ?image ex:knights ?n .
+    PREFIX chess: <http://imaginealpacas.org/chess/>
+    SELECT ?image WHERE {{
+        ?image chess:next_player ?next_player .
+        ?image chess:white_pieces ?white_pieces .
+        ?image chess:black_pieces ?black_pieces .
         {' '.join(piece_conditions)}
     }}
     """
-    
+
     try:
-        # Send the SPARQL query to GraphDB
         headers = {
             "Content-Type": "application/sparql-query",
             "Accept": "application/json"
         }
         response = requests.post(GRAPHDB_ENDPOINT, data=sparql_query, headers=headers)
-        response.raise_for_status()  # Raise an error for bad responses
+        response.raise_for_status()  # Raise error for bad HTTP responses
 
-        # Parse the results from GraphDB
         results = response.json()
-        images = []
-        for binding in results["results"]["bindings"]:
-            image_data = {
-                "filename": binding["image"]["value"].split('/')[-1],  # Extract just the filename
-                "pawns": binding["p"]["value"],
-                "rooks": binding["r"]["value"],
-                "queens": binding["q"]["value"],
-                "bishops": binding["b"]["value"],
-                "knights": binding["n"]["value"],
-            }
-            images.append(image_data)
+
+        images = [extract_filename(binding["image"]["value"]) for binding in results["results"]["bindings"]]
 
         return jsonify(images)
+
     except Exception as e:
+        print("\n❌ Debug: Error occurred:\n", str(e))
         return jsonify({"error": str(e)}), 500
 
 
-import requests
 
+import requests
+# TODO: Adapt the filter endpoint to new improved RDF schema
 @app.route("/filter", methods=["POST"])
 def filter():
     """
@@ -112,16 +104,17 @@ def filter():
             print(key, condition[0], condition[1:])
             operator = condition[0]  # Extract operator (e.g., '=', '>', '<')
             value = condition[1:]    # Extract value (e.g., '1', '2')
-            conditions.append(f"?image <http://example.org/chess/{key}> ?{key} . FILTER (?{key} {operator} {value})")
+            conditions.append(f"?image <http://imaginealpacas.org/chess/{key}> ?{key} . FILTER (?{key} {operator} {value})")
 
     sparql_query = f"""
-    PREFIX ex: <http://example.org/chess/>
-    SELECT ?image ?p ?r ?q ?b ?n WHERE {{
-        ?image ex:pawns ?p .
-        ?image ex:rooks ?r .
-        ?image ex:queens ?q .
-        ?image ex:bishops ?b .
-        ?image ex:knights ?n .
+    PREFIX chess: <http://imaginealpacas.org/chess/>
+    SELECT ?image ?white_pieces ?p ?r ?q ?b ?n WHERE {{
+        ?image chess:white_pieces ?white_pieces .
+        ?white_pieces chess:white_pieces_pawns ?p .
+        ?white_pieces chess:white_pieces_rooks ?r .
+        ?white_pieces chess:white_pieces_queens ?q .
+        ?white_pieces chess:white_pieces_bishops ?b .
+        ?white_pieces chess:white_pieces_knights ?n .
         {" ".join(conditions)}
     }}
     """
@@ -157,6 +150,7 @@ def filter():
 
 @app.route('/images/<filename>')
 def serve_image(filename):
+    print(f"Requested image: {filename}")
     path = os.path.dirname(os.path.dirname(__file__))
     # Try to find the file in both directories
     if os.path.exists(f'{path}/dataset/test/{filename}'):
