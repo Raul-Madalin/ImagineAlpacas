@@ -28,36 +28,30 @@ def extract_filename(uri):
 
 @app.route("/search", methods=["GET"])
 def search():
-    query = request.args.get("query")
+    query = request.args.get("query", "").strip().lower()
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
 
-    piece_conditions = []
-    piece_mapping = {
-        "pawns": ("chess:white_pieces_pawns", "chess:black_pieces_pawns"),
-        "rooks": ("chess:white_pieces_rooks", "chess:black_pieces_rooks"),
-        "queens": ("chess:white_pieces_queens", "chess:black_pieces_queens"),
-        "bishops": ("chess:white_pieces_bishops", "chess:black_pieces_bishops"),
-        "knights": ("chess:white_pieces_knights", "chess:black_pieces_knights")
-    }
+    query_terms = query.split()  # Split the query into terms like ["rooks", "queen"]
 
-    for piece in query.split():
-        if piece.lower() in piece_mapping:
-            white_piece, black_piece = piece_mapping[piece.lower()]
-            piece_conditions.append(f"""
-                OPTIONAL {{ ?white_pieces {white_piece} ?white_value . }}
-                OPTIONAL {{ ?black_pieces {black_piece} ?black_value . }}
-                FILTER (
-                    (?next_player = "white" && bound(?white_value) && ?white_value > 0)
-                    || 
-                    (?next_player = "black" && bound(?black_value) && ?black_value > 0)
-                )
-            """)
+    # Prepare SPARQL conditions for each piece type
+    conditions = []
+    for term in query_terms:
+        is_plural = term.endswith("s")
+        if not is_plural:
+            term = term + "s"
+
+        conditions.append(f"""
+            FILTER (
+                (?next_player = "white" && bound(?white_{term}) && ?white_{term} {"=" if not is_plural else ">"} 1)
+                ||
+                (?next_player = "black" && bound(?black_{term}) && ?black_{term} {"=" if not is_plural else ">"} 1)
+            )
+        """)
 
     sparql_query = f"""
     PREFIX chess: <http://imaginealpacas.org/chess/>
-    SELECT ?image ?next_player ?white_pieces ?black_pieces
-           ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
+    SELECT ?image ?next_player ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
            ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
            ?white_castling_kingside ?white_castling_queenside
            ?black_castling_kingside ?black_castling_queenside
@@ -89,9 +83,11 @@ def search():
         OPTIONAL {{ ?image chess:en_passant_white ?en_passant_white . }}
         OPTIONAL {{ ?image chess:en_passant_black ?en_passant_black . }}
 
-        {' '.join(piece_conditions)}
+        {" ".join(conditions)}
     }}
     """
+
+    print(sparql_query)
 
     try:
         results = query_graphdb(sparql_query)
