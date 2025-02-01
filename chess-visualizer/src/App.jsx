@@ -48,8 +48,8 @@ const ChessOntologyApp = () => {
       setSearchResults(response.data);
       setSearchPerformed(true);
 
-      const puzzleIds = response.data.map((image) => image.puzzle_id);
-      fetchRecommendations(puzzleIds);
+      const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
+      fetchRecommendations(visiblePuzzleIds);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
@@ -76,8 +76,8 @@ const ChessOntologyApp = () => {
 
       setImages(response.data);
 
-      const filteredPuzzleIds = response.data.map((image) => image.puzzle_id);
-      fetchRecommendations(filteredPuzzleIds);
+      const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
+      fetchRecommendations(visiblePuzzleIds);
     } catch (error) {
       console.error("Error applying filters:", error);
     }
@@ -110,7 +110,9 @@ const ChessOntologyApp = () => {
         </Box>
 
         <Box sx={{ flex: 1, p: 2, overflowY: "auto" }}>
-          <ImageGallery images={images} />
+          <ImageGallery 
+            images={images} 
+            onPageChange={(visiblePuzzleIds) => fetchRecommendations(visiblePuzzleIds)}/>
         </Box>
 
         <Box sx={{ width: 400, bgcolor: "grey.200", p: 2, overflowY: "auto" }}>

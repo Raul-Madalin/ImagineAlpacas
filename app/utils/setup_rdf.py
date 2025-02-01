@@ -139,14 +139,15 @@ def prepare_rdf_dataset(dataset_dir):
 
     index = 1
     for file_name in os.listdir(dataset_dir):
+        print(f"Preparing RDF dataset... {index} \ {len(os.listdir(dataset_dir))}")
         if file_name.endswith(".jpeg"):
             fen_representation = file_name.replace(".jpeg", "")
             properties = extract_properties_from_fen(fen_representation)
             properties["puzzle_id"] = index
             add_image_metadata_to_rdf(g, CHESS, file_name, properties)
             index += 1
-        if index == 10:
-            break
+        # if index == 10:
+        #     break
 
     # Serialize to file
     path = os.path.dirname(os.path.dirname(__file__))

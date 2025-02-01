@@ -173,8 +173,8 @@ def filter():
     """
 
     # Restrict to only puzzles currently displayed
-    puzzle_id_conditions = " || ".join([f'?puzzle_id = {pid}' for pid in puzzle_ids])
-    sparql_query += f" FILTER ({puzzle_id_conditions}) "
+    puzzle_id_list = ", ".join(map(str, puzzle_ids))
+    sparql_query += f" FILTER (?puzzle_id IN ({puzzle_id_list})) "
 
     # Convert filters into SPARQL conditions
     piece_conditions = []
@@ -199,7 +199,7 @@ def filter():
 
     sparql_query += "\n}ORDER BY ASC(xsd:integer(?puzzle_id))"
 
-    print(sparql_query)
+    # print(sparql_query)
 
     try:
         # Send SPARQL query to GraphDB
@@ -262,7 +262,7 @@ def get_initial_images():
         ?image chess:puzzle_id ?puzzle_id .
     }
     ORDER BY ASC(xsd:integer(?puzzle_id))
-    LIMIT 6
+    # LIMIT 6
     """
 
     try:
@@ -289,6 +289,8 @@ def get_recommendations():
     """
     data = request.json
     displayed_puzzle_ids = data.get("puzzle_ids", [])
+
+    print(displayed_puzzle_ids)
 
     if not displayed_puzzle_ids:
         return jsonify({"error": "Displayed puzzle IDs are required"}), 400
@@ -363,6 +365,10 @@ def get_recommendations():
 
         # Determine the most dominant characteristic (highest normalized score)
         dominant_feature = max(normalized_scores, key=normalized_scores.get)
+        if dominant_feature not in ["has_castling", "has_en_passant"]:
+            order_by = f"""ORDER BY DESC(IF(?next_player = "white", ?white_{dominant_feature}, ?black_{dominant_feature}))\n"""
+        else:
+            order_by = ""
         print(f"Most dominant feature: {dominant_feature}")
 
         # Query to find similar puzzles based on dominant feature
@@ -407,10 +413,12 @@ def get_recommendations():
                 ))
                 ||
                 # If a piece is dominant
-                (BOUND(?{dominant_feature}))
+                (?next_player = "white" && (BOUND(?white_{dominant_feature})))
+                ||
+                (?next_player = "black" && (BOUND(?black_{dominant_feature})))
             )
         }}
-        ORDER BY DESC(?{dominant_feature})
+        {order_by}
         LIMIT 3
         """
 
@@ -425,14 +433,26 @@ def get_recommendations():
                 "next_player": binding["next_player"]["value"],
                 "has_castling": int(binding.get("has_castling", {}).get("value", 0)),
                 "has_en_passant": int(binding.get("has_en_passant", {}).get("value", 0)),
-                "piece_counts": {
-                    "queens": int(binding.get("queens", {}).get("value", 0)),
-                    "rooks": int(binding.get("rooks", {}).get("value", 0)),
-                    "bishops": int(binding.get("bishops", {}).get("value", 0)),
-                    "knights": int(binding.get("knights", {}).get("value", 0)),
-                    "pawns": int(binding.get("pawns", {}).get("value", 0))
-                }
+                "white_pieces": {
+                    "kings": binding.get("white_kings", {}).get("value", "0"),
+                    "queens": binding.get("white_queens", {}).get("value", "0"),
+                    "rooks": binding.get("white_rooks", {}).get("value", "0"),
+                    "bishops": binding.get("white_bishops", {}).get("value", "0"),
+                    "knights": binding.get("white_knights", {}).get("value", "0"),
+                    "pawns": binding.get("white_pawns", {}).get("value", "0"),
+                },
+                "black_pieces": {
+                    "kings": binding.get("black_kings", {}).get("value", "0"),
+                    "queens": binding.get("black_queens", {}).get("value", "0"),
+                    "rooks": binding.get("black_rooks", {}).get("value", "0"),
+                    "bishops": binding.get("black_bishops", {}).get("value", "0"),
+                    "knights": binding.get("black_knights", {}).get("value", "0"),
+                    "pawns": binding.get("black_pawns", {}).get("value", "0"),
+                },
             })
+
+        x = [recommendation["puzzle_id"] for recommendation in recommendations]
+        print(x)
 
         return jsonify(recommendations)
 
