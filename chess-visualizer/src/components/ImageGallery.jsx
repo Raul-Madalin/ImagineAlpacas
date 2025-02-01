@@ -13,12 +13,12 @@ const ImageGallery = ({ images }) => {
               <CardMedia
                 component="img"
                 image={`http://localhost:5000/images/${image.filename}`}
-                alt={`Chess Position ${index + 1}`}
+                alt={`Chess Position ${image.puzzle_id}`}
                 sx={{ width: "100%", height: "auto" }}
               />
               <CardContent>
                 <Box display="flex" flexGrow={1} justifyContent="center">
-                  <Typography variant="h6">Puzzle ID: {image.puzzle_id}</Typography>
+                  <Typography variant="h6">Puzzle {image.puzzle_id}</Typography>
                 </Box>
               </CardContent>
             </Card>
