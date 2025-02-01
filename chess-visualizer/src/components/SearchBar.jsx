@@ -1,31 +1,24 @@
+import React, { useState } from "react";
+import { Box, TextField, Button, Typography } from "@mui/material";
 
-import React, { useState } from 'react';
-import axios from 'axios';
-
-const SearchBar = ({ setImages }) => {
-  const [query, setQuery] = useState('');
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:5000/search', {
-        params: { query },
-      });
-      setImages(response.data); // Update the Image Gallery
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
+const SearchBar = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search pieces (e.g., Rook Queen)"
+    <Box>
+      <Typography variant="h6">Search Chess Positions</Typography>
+      <TextField
+        fullWidth
+        label="Search Pieces (e.g. 'rooks pawns')"
+        variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        sx={{ mb: 2 }}
       />
-      <button onClick={handleSearch}>Search</button>
-    </div>
+      <Button variant="contained" color="primary" fullWidth onClick={() => onSearch(query)}>
+        Search
+      </Button>
+    </Box>
   );
 };
 

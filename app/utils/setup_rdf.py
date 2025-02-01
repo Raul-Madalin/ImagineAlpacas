@@ -101,6 +101,9 @@ def add_image_metadata_to_rdf(graph, CHESS, image_name, properties):
     # # Add a comment to indicate the start of a new chess board
     # graph.add((image_uri, rdflib.RDFS.comment, rdflib.Literal(f"Chess board representation for {image_name}")))
 
+    # Store the puzzle index
+    graph.add((image_uri, CHESS["puzzle_id"], rdflib.Literal(properties["puzzle_id"])))
+
     # Store the next player
     graph.add((image_uri, CHESS["next_player"], rdflib.Literal(properties["next_player"])))
 
@@ -134,11 +137,12 @@ def add_image_metadata_to_rdf(graph, CHESS, image_name, properties):
 def prepare_rdf_dataset(dataset_dir):
     g, CHESS = initialize_rdf()
 
-    index = 0
+    index = 1
     for file_name in os.listdir(dataset_dir):
         if file_name.endswith(".jpeg"):
             fen_representation = file_name.replace(".jpeg", "")
             properties = extract_properties_from_fen(fen_representation)
+            properties["puzzle_id"] = index
             add_image_metadata_to_rdf(g, CHESS, file_name, properties)
             index += 1
         if index == 10:

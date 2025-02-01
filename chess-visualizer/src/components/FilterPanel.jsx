@@ -1,47 +1,39 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Box, Button, FormControl, FormControlLabel, Checkbox, Typography } from "@mui/material";
 
-const FilterPanel = ({ setImages }) => {
+const FilterPanel = ({ onFilter }) => {
   const [filters, setFilters] = useState({
-    pawns: '',
-    rooks: '',
-    queens: '',
+    rooks: 0,
+    queens: 0,
+    bishops: 0,
+    knights: 0,
+    pawns: 0,
   });
 
-  const handleFilter = async () => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/filter', filters);
-      setImages(response.data); // Update the Image Gallery
-    } catch (error) {
-      console.error('Error applying filters:', error);
-    }
+  const handleFilterChange = (event) => {
+    setFilters({
+      ...filters,
+      [event.target.name]: event.target.checked ? 1 : 0, // Boolean to numeric
+    });
   };
 
   return (
-    <div>
-      <input
-        type="number"
-        placeholder="Number of Pawns"
-        onChange={(e) =>
-          setFilters({ ...filters, pawns: `>${e.target.value}` })
-        }
-      />
-      <input
-        type="number"
-        placeholder="Number of Rooks"
-        onChange={(e) =>
-          setFilters({ ...filters, rooks: `=${e.target.value}` })
-        }
-      />
-      <input
-        type="number"
-        placeholder="Number of Queens"
-        onChange={(e) =>
-          setFilters({ ...filters, queens: `=${e.target.value}` })
-        }
-      />
-      <button onClick={handleFilter}>Apply Filters</button>
-    </div>
+    <Box sx={{ mt: 3 }}>
+      <Typography variant="h6">Filter Chess Positions</Typography>
+      <FormControl component="fieldset">
+        {Object.keys(filters).map((piece) => (
+          <FormControlLabel
+            key={piece}
+            control={<Checkbox name={piece} onChange={handleFilterChange} />}
+            label={piece.charAt(0).toUpperCase() + piece.slice(1)}
+          />
+        ))}
+      </FormControl>
+
+      <Button variant="contained" color="secondary" fullWidth sx={{ mt: 2 }} onClick={() => onFilter(filters)}>
+        Apply Filters
+      </Button>
+    </Box>
   );
 };
 

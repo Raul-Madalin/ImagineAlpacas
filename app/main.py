@@ -222,10 +222,8 @@ def filter():
         return jsonify({"error": str(e)}), 500
 
 
-
 @app.route('/images/<filename>')
 def serve_image(filename):
-    print(f"Requested image: {filename}")
     path = os.path.dirname(os.path.dirname(__file__))
 
     # Try to find the file in both directories
@@ -235,6 +233,38 @@ def serve_image(filename):
         return send_from_directory(f'{path}/dataset/train/', filename)
     else:
         abort(404)  # File not found
+
+
+@app.route("/initial", methods=["GET"])
+def get_initial_images():
+    """
+    Fetches the first 4 chess puzzles from the RDF dataset with puzzle ID.
+    """
+    sparql_query = """
+    PREFIX chess: <http://imaginealpacas.org/chess/>
+    SELECT ?image ?puzzle_id
+    WHERE {
+        ?image chess:puzzle_id ?puzzle_id .
+    }
+    ORDER BY ASC(xsd:integer(?puzzle_id))
+    LIMIT 6
+    """
+
+    try:
+        results = query_graphdb(sparql_query)
+
+        chess_puzzles = []
+        for index, binding in enumerate(results["results"]["bindings"]):
+            chess_puzzles.append({
+                "index": index + 1,
+                "filename": extract_filename(binding["image"]["value"]),
+                "puzzle_id": binding.get("puzzle_id", {}).get("value", "N/A"),
+            })
+
+        return jsonify(chess_puzzles)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

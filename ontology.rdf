@@ -3,34 +3,17 @@
    xmlns:chess="http://imaginealpacas.org/chess/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 >
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg">
-    <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_BlackPieces"/>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">9</chess:puzzle_id>
+    <chess:next_player>black</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_BlackPieces"/>
     <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
     <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
     <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
     <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
     <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
     <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg_BlackPieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
-    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_queens>
-    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_bishops>
-    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_BlackPieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
-    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_queens>
-    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:black_pieces_bishops>
-    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_pawns>
   </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_WhitePieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
@@ -41,16 +24,38 @@
     <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_knights>
     <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_WhitePieces">
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_BlackPieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
+    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_queens>
+    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_rooks>
+    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_bishops>
+    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
+    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_WhitePieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
     <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_knights>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:white_pieces_knights>
     <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
   </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</chess:puzzle_id>
+    <chess:next_player>black</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_BlackPieces"/>
+    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
+    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
+    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
+    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
+    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
+    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
+  </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</chess:puzzle_id>
     <chess:next_player>white</chess:next_player>
     <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg_WhitePieces"/>
     <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg_BlackPieces"/>
@@ -61,25 +66,14 @@
     <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
     <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_WhitePieces">
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg">
-    <chess:next_player>black</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_BlackPieces"/>
-    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
-    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
-    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
-    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
-    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
-    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
+    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
+    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_queens>
+    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_rooks>
+    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_bishops>
+    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
+    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
   </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
@@ -90,10 +84,38 @@
     <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
     <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg">
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_WhitePieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_knights>
+    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_BlackPieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
+    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_queens>
+    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_rooks>
+    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:black_pieces_bishops>
+    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
+    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_WhitePieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_knights>
+    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</chess:puzzle_id>
     <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_BlackPieces"/>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_BlackPieces"/>
     <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
     <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
     <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
@@ -101,10 +123,20 @@
     <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
     <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg">
-    <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_BlackPieces"/>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_WhitePieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
+    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:puzzle_id>
+    <chess:next_player>black</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_BlackPieces"/>
     <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
     <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
     <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
@@ -121,103 +153,14 @@
     <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_knights>
     <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</chess:white_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B2K1-1B6-5N2-6k1-8-8-8-4nq2.jpeg_BlackPieces">
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
     <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
     <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_queens>
     <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_bishops>
-    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg">
-    <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_BlackPieces"/>
-    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
-    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
-    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
-    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
-    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
-    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg">
-    <chess:next_player>black</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_BlackPieces"/>
-    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
-    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
-    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
-    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
-    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
-    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg">
-    <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg_BlackPieces"/>
-    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
-    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
-    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
-    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
-    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
-    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-2b3PK-7P-8-1BP4k-4P3-8-8.jpeg">
-    <chess:next_player>white</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-2b3PK-7P-8-1BP4k-4P3-8-8.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-2b3PK-7P-8-1BP4k-4P3-8-8.jpeg_BlackPieces"/>
-    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
-    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
-    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
-    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
-    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
-    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-2b3PK-7P-8-1BP4k-4P3-8-8.jpeg_WhitePieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</chess:white_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-2b3PK-7P-8-1BP4k-4P3-8-8.jpeg_BlackPieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
-    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_queens>
-    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_bishops>
+    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:black_pieces_bishops>
     <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_WhitePieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_WhitePieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_pawns>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_WhitePieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
+    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_pawns>
   </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
@@ -228,15 +171,6 @@
     <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
     <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_WhitePieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
-    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
-    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_rooks>
-    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
-    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
-    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
-  </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
     <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
@@ -246,10 +180,20 @@
     <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
     <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg">
-    <chess:next_player>black</chess:next_player>
-    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_WhitePieces"/>
-    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_BlackPieces"/>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg_BlackPieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
+    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_queens>
+    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_rooks>
+    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_bishops>
+    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
+    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:puzzle_id>
+    <chess:next_player>white</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B1Qr1-7p-6r1-2P5-4Rk2-1K6-4B3-8.jpeg_BlackPieces"/>
     <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
     <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
     <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
@@ -257,14 +201,17 @@
     <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
     <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2k1-K2B1q2-R3B2p-3b1NR1-5p2-3N4-8-5N2.jpeg_BlackPieces">
-    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
-    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_queens>
-    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:black_pieces_bishops>
-    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_pawns>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</chess:puzzle_id>
+    <chess:next_player>white</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_BlackPieces"/>
+    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
+    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
+    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
+    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
+    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
+    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
   </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1p4P1-5k2-1n3q2-8-2B5-1K3rR1-2q5.jpeg_WhitePieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
@@ -275,6 +222,30 @@
     <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
     <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_pawns>
   </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</chess:puzzle_id>
+    <chess:next_player>white</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b4-1N5r-1P1p3B-8-3KP3-3P2k1-3PB3-1N6.jpeg_BlackPieces"/>
+    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
+    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
+    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
+    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
+    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
+    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg">
+    <chess:puzzle_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</chess:puzzle_id>
+    <chess:next_player>white</chess:next_player>
+    <chess:white_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_WhitePieces"/>
+    <chess:black_pieces rdf:resource="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_BlackPieces"/>
+    <chess:white_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_kingside>
+    <chess:white_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:white_castling_queenside>
+    <chess:black_castling_kingside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_kingside>
+    <chess:black_castling_queenside rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:black_castling_queenside>
+    <chess:en_passant_white rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_white>
+    <chess:en_passant_black rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</chess:en_passant_black>
+  </rdf:Description>
   <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1b4-1Q2b3-8-6rn-3NK3-7k-2r5-8.jpeg_BlackPieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
     <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
@@ -284,13 +255,22 @@
     <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_knights>
     <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
   </rdf:Description>
-  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1B4-1P6-2B5-3r2kN-2r4P-8-5K2-3B4.jpeg_BlackPieces">
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1B1B3R-8-1b2k3-8-2n5-1rK5-b7-8.jpeg_WhitePieces">
     <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
-    <chess:black_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_kings>
-    <chess:black_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_queens>
-    <chess:black_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:black_pieces_rooks>
-    <chess:black_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:black_pieces_bishops>
-    <chess:black_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_knights>
-    <chess:black_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:black_pieces_pawns>
+    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_knights>
+    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_pawns>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://imaginealpacas.org/chess/1b1b2K1-1r6-2P4p-1b1p4-4N1k1-3B2Q1-2q5-2N2q2.jpeg_WhitePieces">
+    <rdf:type rdf:resource="http://imaginealpacas.org/chess/ChessPieceCollection"/>
+    <chess:white_pieces_kings rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_kings>
+    <chess:white_pieces_queens rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_queens>
+    <chess:white_pieces_rooks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</chess:white_pieces_rooks>
+    <chess:white_pieces_bishops rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_bishops>
+    <chess:white_pieces_knights rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</chess:white_pieces_knights>
+    <chess:white_pieces_pawns rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</chess:white_pieces_pawns>
   </rdf:Description>
 </rdf:RDF>
