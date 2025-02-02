@@ -33,6 +33,7 @@ const ChessOntologyApp = () => {
   const [isLoadingImages, setIsLoadingImages] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
   const [useRdfRecommendations, setUseRdfRecommendations] = useState(true);
+  const [useRdfGameState, setUseRdfGameState] = useState(true);
   const [selectedFilters, setSelectedFilters] = useState({ ...DEFAULT_FILTER_STATE });
   const [expandedSections, setExpandedSections] = useState({ ...DEFAULT_EXPANDED_SECTIONS });
 
@@ -113,7 +114,10 @@ const ChessOntologyApp = () => {
 
       const requestBody = {
         filters: filters,
-        puzzle_ids: puzzleIds
+        puzzle_ids: puzzleIds,
+        game_state_filter_endpoint: useRdfGameState
+        ? "http://localhost:5000//filter/game-state-rdf"
+        : "http://localhost:5000//filter/game-state-ml"
       };
 
       const response = await axios.post("http://localhost:5000/filter", requestBody, {
@@ -121,8 +125,6 @@ const ChessOntologyApp = () => {
       });
 
       setImages(response.data);
-      // setSearchResults(response.data);
-      // setSearchOrFilterPerformed(true); 
 
       const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
       fetchRecommendations(visiblePuzzleIds);
@@ -170,6 +172,17 @@ const ChessOntologyApp = () => {
               <Switch
                 checked={useRdfRecommendations}
                 onChange={(e) => setUseRdfRecommendations(e.target.checked)}
+                color="primary"
+              />
+            }
+          />
+          <br></br><br></br>
+          <FormControlLabel
+            label="Use RDF for Filtering Game State"
+            control={
+              <Switch
+                checked={useRdfGameState}
+                onChange={(e) => setUseRdfGameState(e.target.checked)}
                 color="primary"
               />
             }
