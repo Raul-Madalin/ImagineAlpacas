@@ -77,7 +77,10 @@ const ChessOntologyApp = () => {
   const handleSearch = async (query) => {
     try {
       setIsLoadingImages(true);
+      setIsLoadingRecommendations(true);
+
       const response = await axios.get(`http://localhost:5000/search?query=${query}`);
+
       setImages(response.data);
       setSearchResults(response.data);
       setSearchOrFilterPerformed(true); 
@@ -97,6 +100,7 @@ const ChessOntologyApp = () => {
   const handleFilter = async (filters) => {
     try {
       setIsLoadingImages(true);
+      setIsLoadingRecommendations(true);
       setSelectedFilters(filters);
 
       const baseImages = searchOrFilterPerformed ? searchResults : originalImages;

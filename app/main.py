@@ -271,7 +271,7 @@ def filter():
 
     sparql_query += "\n}ORDER BY ASC(xsd:integer(?puzzle_id))"
 
-    print(sparql_query)
+    # print(sparql_query)
 
     try:
         # Send SPARQL query to GraphDB
