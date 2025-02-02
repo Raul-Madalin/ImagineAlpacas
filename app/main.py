@@ -124,6 +124,15 @@ def search():
                 "en_passant": {
                     "white": binding.get("en_passant_white", {}).get("value", "false"),
                     "black": binding.get("en_passant_black", {}).get("value", "false"),
+                },
+                "metadata": {  # RDF-Compatible metadata
+                    "@context": "http://schema.org/",
+                    "@type": "ImageObject",
+                    "identifier": binding.get("puzzle_id", {}).get("value", "N/A"),
+                    "name": f"Chess Puzzle {binding.get("puzzle_id", {}).get("value", "N/A")}",
+                    "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                    "encodingFormat": "image/png",
+                    "gameFeature": f"{binding.get("next_player", {}).get("value", "")} to move"
                 }
             })
 
@@ -429,6 +438,14 @@ def filter_main():
                 "knights": binding.get("black_knights", {}).get("value", "0"),
                 "pawns": binding.get("black_pawns", {}).get("value", "0"),
             },
+            "metadata": {  # RDF-Compatible metadata
+                "@context": "http://schema.org/",
+                "@type": "ImageObject",
+                "identifier": binding.get("puzzle_id", {}).get("value", "N/A"),
+                "name": f"Chess Puzzle {binding.get("puzzle_id", {}).get("value", "N/A")}",
+                "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                "encodingFormat": "image/png",
+            }
         })
 
     # If the user did NOT request game_state filtering, just return these
@@ -553,7 +570,14 @@ def filter_game_state_rdf():
                 "puzzle_id": binding.get("puzzle_id", {}).get("value", ""),
                 "next_player": binding.get("next_player", {}).get("value", ""),
                 "game_state": binding.get("computed_state", {}).get("value", "unknown"),
-                # etc.
+                "metadata": {  # RDF-Compatible metadata
+                    "@context": "http://schema.org/",
+                    "@type": "ImageObject",
+                    "identifier": binding.get("puzzle_id", {}).get("value", ""),
+                    "name": f"Chess Puzzle {binding.get("puzzle_id", {}).get("value", "")}",
+                    "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                    "encodingFormat": "image/png",
+                }
             })
         return jsonify(final_puzzles)
     except Exception as e:
@@ -598,6 +622,14 @@ def get_initial_images():
                 "index": index + 1,
                 "filename": extract_filename(binding["image"]["value"]),
                 "puzzle_id": binding.get("puzzle_id", {}).get("value", "N/A"),
+                "metadata": {  # RDF-Compatible metadata
+                    "@context": "http://schema.org/",
+                    "@type": "ImageObject",
+                    "identifier": binding.get("puzzle_id", {}).get("value", "N/A"),
+                    "name": f"Initial Chess Puzzle {binding.get("puzzle_id", {}).get("value", "N/A")}",
+                    "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                    "encodingFormat": "image/png"
+                }
             })
 
         return jsonify(chess_puzzles)
@@ -772,6 +804,15 @@ def get_recommendations():
                     "bishops": binding.get("black_bishops", {}).get("value", "0"),
                     "knights": binding.get("black_knights", {}).get("value", "0"),
                     "pawns": binding.get("black_pawns", {}).get("value", "0"),
+                },
+                "metadata": {  # RDF-Compatible metadata
+                    "@context": "http://schema.org/",
+                    "@type": "ImageObject",
+                    "identifier": binding["puzzle_id"]["value"],
+                    "name": f"Chess Puzzle {binding["puzzle_id"]["value"]}",
+                    "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                    "encodingFormat": "image/png",
+                    "recommendedFeature": f"{binding["next_player"]["value"]}"
                 },
                 "dominant_feature": dominant_feature
             })

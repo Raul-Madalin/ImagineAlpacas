@@ -1,21 +1,31 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
 
   return (
-    <Box>
-      <Typography variant="h6">Search Chess Positions</Typography>
+    <Box vocab="http://schema.org/" typeof="SearchAction">
+      
+      {/* Search Input Field with RDFa metadata */}
       <TextField
         fullWidth
-        label="Search Pieces (e.g. 'rooks pawns')"
+        label="Search Pieces (e.g., 'rooks pawns')"
         variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        property="query-input"
         sx={{ mb: 2 }}
       />
-      <Button variant="contained" color="primary" fullWidth onClick={() => onSearch(query)}>
+
+      {/* Search Button with RDFa metadata */}
+      <Button 
+        variant="contained" 
+        color="primary" 
+        fullWidth 
+        onClick={() => onSearch(query)}
+        property="target"
+      >
         Search
       </Button>
     </Box>

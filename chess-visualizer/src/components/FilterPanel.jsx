@@ -27,18 +27,11 @@ const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSe
     }));
   };
 
-  // const handleApplyFilters = () => {
-  //   onFilter(selectedFilters);
-  // };
-
-  // useEffect(() => {
-    
-  // }, [selectedFilters]);
-
   return (
-    <div className="filters-container">
+    <div className="filters-container" vocab="http://schema.org/" typeof="ItemList">
+
       {Object.keys(pieceFilterOptions).map((piece) => (
-        <div key={piece} className="filter-group">
+        <div key={piece} className="filter-group" typeof="ListItem">
           {/* Collapsible Header */}
           <div
             style={{
@@ -53,31 +46,33 @@ const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSe
             }}
             onClick={() => toggleSection(piece)}
           >
-            <h4 style={{ margin: 0 }}>{piece.charAt(0).toUpperCase() + piece.slice(1)}</h4>
+            <h4 style={{ margin: 0 }} property="name">
+              {piece.charAt(0).toUpperCase() + piece.slice(1)}
+            </h4>
             <span>{expandedSections[piece] ? "▲" : "▼"}</span>
           </div>
 
           {/* Collapsible Content */}
           {expandedSections[piece] && (
-            <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
+            <div style={{ marginLeft: "10px", marginBottom: "10px" }} property="itemListElement">
               {pieceFilterOptions[piece].map((option) => (
-                <label
-                  key={`${piece}-${option}`}
-                  style={{ display: "block", margin: "5px 0" }}
-                >
+                <label key={`${piece}-${option}`} typeof="ListItem" style={{ display: "block", margin: "5px 0" }}>
                   <input
                     type="checkbox"
                     value={option}
                     checked={(selectedFilters[piece] || []).includes(option)}
                     onChange={() => handleCheckboxChange(piece, option)}
                   />
-                  {option}
+                  <span property="name">{option}</span>
+                  <meta property="identifier" content={`${piece}-${option}`} />
                 </label>
               ))}
             </div>
           )}
         </div>
       ))}
+
+      {/* Apply Filters Button */}
       <Button
         variant="contained"
         color="primary"
@@ -89,6 +84,5 @@ const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSe
     </div>
   );
 };
-
 
 export default FilterPanel;

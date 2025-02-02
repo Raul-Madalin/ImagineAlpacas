@@ -24,28 +24,19 @@ export default function ImageGallery({ images, isLoading, onPageChange }) {
   // 2) Decide how many images to show per page based on screen size
   let imagesPerPage;
   if (isLgUp) {
-    // Large desktop or bigger, e.g. 4 columns => 2 rows => 8 total
     imagesPerPage = 8;
   } else if (isMdUp) {
-    // Medium screens => 3 columns => 2 rows => 6 total
     imagesPerPage = 6;
   } else if (isSmUp) {
-    // Small screens => 2 columns => maybe 2 or 3 rows => you pick
     imagesPerPage = 4;
   } else {
-    // XS screens => just 1 column => maybe 2 rows => 2 images
     imagesPerPage = 2;
   }
 
-  // 3) If loading, spinner
+  // 3) If loading, show a spinner
   if (isLoading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-      >
+      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
         <CircularProgress />
       </Box>
     );
@@ -73,76 +64,84 @@ export default function ImageGallery({ images, isLoading, onPageChange }) {
 
   return (
     <Box sx={{ width: "100%", height: "100%", p: 2, overflow: "hidden" }}>
-      {selectedImages.length === 0 && (
-        <Typography variant="body1">No images found.</Typography>
-      )}
+      {/* RDFa Vocabulary Declaration */}
+      <div vocab="http://schema.org/" typeof="CollectionPage">
 
-      {!!selectedImages.length && (
-        <Grid container spacing={2} wrap="wrap">
-          {selectedImages.map((image, index) => (
-            <Grid
-              item
-              xs={12}  // 1 col on extra-small
-              sm={6}   // 2 cols on small
-              md={4}   // 3 cols on medium
-              lg={3}   // 4 cols on large
-              key={index}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              <Card
-                sx={{
-                  maxWidth: 400,
-                  width: "100%", // fill the grid cell
-                }}
+        {selectedImages.length === 0 && (
+          <Typography variant="body1">No images found.</Typography>
+        )}
+
+        {!!selectedImages.length && (
+          <Grid container spacing={2} wrap="wrap" property="mainEntity" typeof="ItemList">
+            {selectedImages.map((image, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                key={index}
+                sx={{ display: "flex", justifyContent: "center" }}
               >
-                <CardMedia
-                  component="img"
-                  image={`http://localhost:5000/images/${image.filename}`}
-                  alt={`Chess Position ${image.puzzle_id}`}
+                <Card
+                  typeof="ImageObject"
+                  resource={image.metadata?.contentUrl} // RDFa resource
                   sx={{
-                    aspectRatio: "1 / 1", 
-                    objectFit: "contain",
-                    maxWidth: "400px",
+                    maxWidth: 400,
                     width: "100%",
                   }}
-                />
-                <CardContent>
-                  <Typography variant="h6" align="center">
-                    Puzzle {image.puzzle_id}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
+                >
+                  {/* Image with RDFa attributes */}
+                  <CardMedia
+                    component="img"
+                    property="contentUrl"
+                    src={image.metadata?.contentUrl}
+                    alt={`Chess Position ${image.metadata?.identifier}`}
+                    sx={{
+                      aspectRatio: "1 / 1",
+                      objectFit: "contain",
+                      maxWidth: "400px",
+                      width: "100%",
+                    }}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" align="center" property="name">
+                      Puzzle <span property="identifier">{image.metadata?.identifier}</span>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )}
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handlePageChange(safePage - 1)}
-            disabled={safePage === 1}
-            sx={{ mr: 2 }}
-          >
-            Previous
-          </Button>
-          <Typography variant="body1">
-            Page {safePage} of {totalPages}
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handlePageChange(safePage + 1)}
-            disabled={safePage === totalPages}
-            sx={{ ml: 2 }}
-          >
-            Next
-          </Button>
-        </Box>
-      )}
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handlePageChange(safePage - 1)}
+              disabled={safePage === 1}
+              sx={{ mr: 2 }}
+            >
+              Previous
+            </Button>
+            <Typography variant="body1">
+              Page {safePage} of {totalPages}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handlePageChange(safePage + 1)}
+              disabled={safePage === totalPages}
+              sx={{ ml: 2 }}
+            >
+              Next
+            </Button>
+          </Box>
+        )}
+      </div>
     </Box>
   );
 }

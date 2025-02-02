@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, FormControlLabel, Switch } from "@mui/material";
 import SearchBar from "./components/SearchBar";
 import FilterPanel from "./components/FilterPanel";
@@ -53,6 +54,20 @@ const ChessOntologyApp = () => {
 
     fetchInitialImages();
   }, []);
+
+  const schemaOrgData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Chess Puzzles App",
+    "description": "A web application for exploring chess puzzles using RDF data.",
+    "mainEntity": images.map((image) => ({
+      "@type": "ImageObject",
+      "name": `Chess Puzzle ${image.puzzle_id}`,
+      "contentUrl": `http://localhost:5000/images/${image.filename}`,
+      "identifier": image.puzzle_id,
+      "encodingFormat": "image/png",
+    })),
+  };
 
   const fetchRecommendations = async (puzzleIds) => {
     if (puzzleIds.length === 0) return;
@@ -137,6 +152,12 @@ const ChessOntologyApp = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(schemaOrgData, null, 2)}
+        </script>
+      </Helmet>
+      
       <CssBaseline />
       <AppBar position="static" sx={{
           backgroundColor: "#4e4091",

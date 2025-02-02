@@ -27,27 +27,19 @@ const Recommandations = ({ recommendations, isLoading }) => {
       const { offsetWidth, offsetHeight } = containerRef.current;
       if (!offsetWidth || !offsetHeight) return;
 
-      // The puzzle’s width is clamped between MIN_SIZE..offsetWidth..MAX_SIZE
-      // Then the puzzle’s height is the same (square).
       const puzzleSize = Math.min(Math.max(offsetWidth, MIN_SIZE), MAX_SIZE);
-
-      // Usable vertical space, minus padding
       const usableHeight = offsetHeight - VERTICAL_PADDING_PX;
 
       let usedHeight = 0;
       const fitting = [];
 
-      // Try adding recommendations one by one
       for (let i = 0; i < recommendations.length; i++) {
-        // If not the first item, we add spacing
         const extraSpace = i === 0 ? 0 : ITEM_SPACING_PX;
         const needed = usedHeight + extraSpace + puzzleSize;
         if (needed <= usableHeight) {
-          // It fits
           fitting.push(recommendations[i]);
           usedHeight = needed;
         } else {
-          // No more items can fit fully, so break
           break;
         }
       }
@@ -55,7 +47,7 @@ const Recommandations = ({ recommendations, isLoading }) => {
       setVisibleRecs(fitting);
     }
 
-    updateLayout(); // run once on mount
+    updateLayout();
     window.addEventListener("resize", updateLayout);
     return () => window.removeEventListener("resize", updateLayout);
   }, [recommendations]);
@@ -71,37 +63,41 @@ const Recommandations = ({ recommendations, isLoading }) => {
   return (
     <Box
       ref={containerRef}
+      vocab="http://schema.org/"
+      typeof="RecommendationList"
       sx={{
         width: "100%",
         height: "100%",
         p: 2,
         boxSizing: "border-box",
-        // We'll stack them in a column, and skip any that don't fit:
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        overflow: "hidden", // or 'auto' if you want a scrollbar
+        overflow: "hidden",
       }}
     >
-      <Typography variant="h6">Recommended <i>{recommendations.length > 0 ? recommendations[0].dominant_feature : "feature"}</i>:</Typography>
+      <Typography variant="h6" property="name">
+        Recommended <i>{recommendations.length > 0 ? recommendations[0].dominant_feature : "feature"}</i>:
+      </Typography>
 
       {visibleRecs.length > 0 ? (
         visibleRecs.map((rec) => (
           <Card
             key={rec.puzzle_id}
+            typeof="ListItem ImageObject"
+            resource={rec.metadata?.contentUrl}
             sx={{
-              // same constraints as the gallery
               maxWidth: 400,
               width: "clamp(200px, 100%, 400px)",
-              mx: "auto", // center horizontally if there's leftover space
+              mx: "auto",
             }}
           >
             <CardMedia
               component="img"
-              image={`http://localhost:5000/images/${rec.filename}`}
-              alt={`Chess Position ${rec.puzzle_id}`}
+              property="contentUrl"
+              src={rec.metadata?.contentUrl}
+              alt={`Chess Position ${rec.metadata?.identifier}`}
               sx={{
-                // Keep puzzle images square
                 aspectRatio: "1 / 1",
                 objectFit: "contain",
                 width: "100%",
@@ -109,8 +105,8 @@ const Recommandations = ({ recommendations, isLoading }) => {
               }}
             />
             <CardContent>
-              <Typography variant="h6" align="center">
-                Puzzle {rec.puzzle_id}
+              <Typography variant="h6" align="center" property="name">
+                Puzzle <span property="identifier">{rec.metadata?.identifier}</span>
               </Typography>
             </CardContent>
           </Card>
