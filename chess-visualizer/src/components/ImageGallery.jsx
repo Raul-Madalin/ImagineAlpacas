@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { Box, Grid, Card, CardMedia, CardContent, Typography, Button } from "@mui/material";
+import { Box, Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress } from "@mui/material";
 
-const ImageGallery = ({ images, onPageChange }) => {
+const ImageGallery = ({ images, isLoading, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const imagesPerPage = 6;
+
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   // Calculate total pages
   const totalPages = Math.ceil(images.length / imagesPerPage);

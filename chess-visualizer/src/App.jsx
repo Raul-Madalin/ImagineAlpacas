@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, CssBaseline, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, CircularProgress } from "@mui/material";
 import SearchBar from "./components/SearchBar";
 import FilterPanel from "./components/FilterPanel";
 import Recommandations from "./components/Recommandations";
@@ -12,15 +12,20 @@ const ChessOntologyApp = () => {
   const [searchResults, setSearchResults] = useState([]); // Stores latest search results
   const [searchPerformed, setSearchPerformed] = useState(false); 
   const [recommendations, setRecommendations] = useState([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
 
   useEffect(() => {
     const fetchInitialImages = async () => {
       try {
+        setIsLoadingImages(true);
         const response = await axios.get("http://localhost:5000/initial");
         setImages(response.data);
         setOriginalImages(response.data);
       } catch (error) {
         console.error("Error fetching initial images:", error);
+      } finally {
+        setIsLoadingImages(false);
       }
     };
 
@@ -31,6 +36,7 @@ const ChessOntologyApp = () => {
     if (puzzleIds.length === 0) return;
 
     try {
+      setIsLoadingRecommendations(true);
       const response = await axios.post("http://localhost:5000/recommendations", {
         puzzle_ids: puzzleIds,
       });
@@ -38,11 +44,14 @@ const ChessOntologyApp = () => {
       setRecommendations(response.data);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
+    } finally {
+      setIsLoadingRecommendations(false);
     }
   };
 
   const handleSearch = async (query) => {
     try {
+      setIsLoadingImages(true);
       const response = await axios.get(`http://localhost:5000/search?query=${query}`);
       setImages(response.data);
       setSearchResults(response.data);
@@ -52,11 +61,15 @@ const ChessOntologyApp = () => {
       fetchRecommendations(visiblePuzzleIds);
     } catch (error) {
       console.error("Error fetching search results:", error);
+    } finally {
+      setIsLoadingImages(false);
     }
   };
 
   const handleFilter = async (filters) => {
     try {
+      setIsLoadingImages(true);
+
       const baseImages = searchPerformed ? searchResults : originalImages;
       const puzzleIds = baseImages.map((image) => image.puzzle_id);
 
@@ -80,6 +93,8 @@ const ChessOntologyApp = () => {
       fetchRecommendations(visiblePuzzleIds);
     } catch (error) {
       console.error("Error applying filters:", error);
+    } finally {
+      setIsLoadingImages(false);
     }
   };
 
@@ -112,11 +127,16 @@ const ChessOntologyApp = () => {
         <Box sx={{ flex: 1, p: 2, overflowY: "auto" }}>
           <ImageGallery 
             images={images} 
-            onPageChange={(visiblePuzzleIds) => fetchRecommendations(visiblePuzzleIds)}/>
+            isLoading={isLoadingImages}
+            onPageChange={(visiblePuzzleIds) => fetchRecommendations(visiblePuzzleIds)}
+          />
         </Box>
 
         <Box sx={{ width: 400, bgcolor: "grey.200", p: 2, overflowY: "auto" }}>
-          <Recommandations recommendations={recommendations} />
+          <Recommandations 
+            recommendations={recommendations} 
+            isLoading={isLoadingRecommendations}
+          />
         </Box>
       </Box>
 

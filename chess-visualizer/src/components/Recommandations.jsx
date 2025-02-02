@@ -1,7 +1,15 @@
 import React from "react";
-import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import { Box, Typography, Card, CardMedia, CardContent, CircularProgress } from "@mui/material";
 
-const Recommandations = ({ recommendations }) => {
+const Recommandations = ({ recommendations, isLoading }) => {
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       {recommendations.length > 0 ? (
