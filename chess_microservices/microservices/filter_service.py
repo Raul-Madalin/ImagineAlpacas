@@ -1,4 +1,5 @@
 from flask import request, jsonify, Blueprint
+from config import BASE_URL
 from utils.graphdb_utils import query_graphdb, extract_filename
 import requests
 
@@ -128,7 +129,7 @@ def filter():
                 "@type": "ImageObject",
                 "identifier": binding.get("puzzle_id", {}).get("value", "N/A"),
                 "name": f"Chess Puzzle {binding.get("puzzle_id", {}).get("value", "N/A")}",
-                "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                "contentUrl": f"{BASE_URL}/images/{extract_filename(binding["image"]["value"])}",
                 "encodingFormat": "image/png",
             }
         })

@@ -7,6 +7,17 @@ import Recommandations from "./components/Recommandations";
 import ImageGallery from "./components/ImageGallery";
 import axios from "axios";
 
+import {
+  INITIAL_BASE_URL,
+  IMAGE_BASE_URL,
+  SEARCH_BASE_URL,
+  FILTER_BASE_URL,
+  RDF_RECOMMENDATION_BASE_URL,
+  ML_RECOMMENDATION_BASE_URL,
+  FILTER_GAME_STATE_RDF_BASE_URL,
+  FILTER_GAME_STATE_ML_BASE_URL,
+} from "./config";
+
 const DEFAULT_FILTER_STATE = {
   rooks: [],
   queens: [],
@@ -42,7 +53,7 @@ const ChessOntologyApp = () => {
     const fetchInitialImages = async () => {
       try {
         setIsLoadingImages(true);
-        const response = await axios.get("http://localhost:5000/initial");
+        const response = await axios.get(INITIAL_BASE_URL);
         setImages(response.data);
         setOriginalImages(response.data);
       } catch (error) {
@@ -63,7 +74,7 @@ const ChessOntologyApp = () => {
     "mainEntity": images.map((image) => ({
       "@type": "ImageObject",
       "name": `Chess Puzzle ${image.puzzle_id}`,
-      "contentUrl": `http://localhost:5000/images/${image.filename}`,
+      "contentUrl": `${IMAGE_BASE_URL}${image.filename}`,
       "identifier": image.puzzle_id,
       "encodingFormat": "image/png",
     })),
@@ -76,8 +87,8 @@ const ChessOntologyApp = () => {
       setIsLoadingRecommendations(true);
 
       const endpoint = useRdfRecommendations
-        ? "http://localhost:5000/rdf-recommendations"
-        : "http://localhost:5000/ml-recommendations";
+        ? RDF_RECOMMENDATION_BASE_URL
+        : ML_RECOMMENDATION_BASE_URL;
       const response = await axios.post(endpoint, {
         puzzle_ids: puzzleIds,
       });
@@ -95,7 +106,7 @@ const ChessOntologyApp = () => {
       setIsLoadingImages(true);
       setIsLoadingRecommendations(true);
 
-      const response = await axios.get(`http://localhost:5000/search?query=${query}`);
+      const response = await axios.get(`${SEARCH_BASE_URL}${query}`);
 
       setImages(response.data);
       setSearchResults(response.data);
@@ -131,11 +142,11 @@ const ChessOntologyApp = () => {
         filters: filters,
         puzzle_ids: puzzleIds,
         game_state_filter_endpoint: useRdfGameState
-        ? "http://localhost:5000/filter/game-state-rdf"
-        : "http://localhost:5000/filter/game-state-ml"
+        ? FILTER_GAME_STATE_RDF_BASE_URL
+        : FILTER_GAME_STATE_ML_BASE_URL
       };
 
-      const response = await axios.post("http://localhost:5000/filter", requestBody, {
+      const response = await axios.post(FILTER_BASE_URL, requestBody, {
         headers: { "Content-Type": "application/json" },
       });
 

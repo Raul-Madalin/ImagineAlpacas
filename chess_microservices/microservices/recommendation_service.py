@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from config import BASE_URL
 from utils.graphdb_utils import query_graphdb, extract_filename
 
 recommendation_blueprint = Blueprint("recommendation", __name__)
@@ -175,7 +176,7 @@ def get_recommendations():
                     "@type": "ImageObject",
                     "identifier": binding["puzzle_id"]["value"],
                     "name": f"Chess Puzzle {binding["puzzle_id"]["value"]}",
-                    "contentUrl": f"http://localhost:5000/images/{extract_filename(binding["image"]["value"])}",
+                    "contentUrl": f"{BASE_URL}/images/{extract_filename(binding["image"]["value"])}",
                     "encodingFormat": "image/png",
                     "recommendedFeature": f"{binding["next_player"]["value"]}"
                 },
