@@ -131,8 +131,8 @@ const ChessOntologyApp = () => {
         filters: filters,
         puzzle_ids: puzzleIds,
         game_state_filter_endpoint: useRdfGameState
-        ? "http://localhost:5000//filter/game-state-rdf"
-        : "http://localhost:5000//filter/game-state-ml"
+        ? "http://localhost:5000/filter/game-state-rdf"
+        : "http://localhost:5000/filter/game-state-ml"
       };
 
       const response = await axios.post("http://localhost:5000/filter", requestBody, {
