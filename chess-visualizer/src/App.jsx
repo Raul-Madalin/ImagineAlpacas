@@ -10,7 +10,7 @@ const ChessOntologyApp = () => {
   const [images, setImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]); // Stores initial images (if no search)
   const [searchResults, setSearchResults] = useState([]); // Stores latest search results
-  const [searchPerformed, setSearchPerformed] = useState(false); 
+  const [searchOrFilterPerformed, setSearchOrFilterPerformed] = useState(false); 
   const [recommendations, setRecommendations] = useState([]);
   const [isLoadingImages, setIsLoadingImages] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
@@ -55,7 +55,7 @@ const ChessOntologyApp = () => {
       const response = await axios.get(`http://localhost:5000/search?query=${query}`);
       setImages(response.data);
       setSearchResults(response.data);
-      setSearchPerformed(true);
+      setSearchOrFilterPerformed(true); 
 
       const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
       fetchRecommendations(visiblePuzzleIds);
@@ -70,7 +70,7 @@ const ChessOntologyApp = () => {
     try {
       setIsLoadingImages(true);
 
-      const baseImages = searchPerformed ? searchResults : originalImages;
+      const baseImages = searchOrFilterPerformed ? searchResults : originalImages;
       const puzzleIds = baseImages.map((image) => image.puzzle_id);
 
       if (puzzleIds.length === 0) {
@@ -88,6 +88,7 @@ const ChessOntologyApp = () => {
       });
 
       setImages(response.data);
+      setSearchOrFilterPerformed(true); 
 
       const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
       fetchRecommendations(visiblePuzzleIds);
@@ -128,7 +129,11 @@ const ChessOntologyApp = () => {
           <ImageGallery 
             images={images} 
             isLoading={isLoadingImages}
-            onPageChange={(visiblePuzzleIds) => fetchRecommendations(visiblePuzzleIds)}
+            onPageChange={(visiblePuzzleIds) => {
+              if (searchOrFilterPerformed) {
+                fetchRecommendations(visiblePuzzleIds);
+              }
+            }}
           />
         </Box>
 
