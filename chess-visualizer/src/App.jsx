@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, CircularProgress } from "@mui/material";
+import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, CircularProgress, FormControlLabel, Switch } from "@mui/material";
 import SearchBar from "./components/SearchBar";
 import FilterPanel from "./components/FilterPanel";
 import Recommandations from "./components/Recommandations";
@@ -14,6 +14,7 @@ const ChessOntologyApp = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [isLoadingImages, setIsLoadingImages] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
+  const [useRdfRecommendations, setUseRdfRecommendations] = useState(true);
 
   useEffect(() => {
     const fetchInitialImages = async () => {
@@ -37,7 +38,11 @@ const ChessOntologyApp = () => {
 
     try {
       setIsLoadingRecommendations(true);
-      const response = await axios.post("http://localhost:5000/recommendations", {
+
+      const endpoint = useRdfRecommendations
+        ? "http://localhost:5000/rdf-recommendations"
+        : "http://localhost:5000/ml-recommendations";
+      const response = await axios.post(endpoint, {
         puzzle_ids: puzzleIds,
       });
 
@@ -123,6 +128,17 @@ const ChessOntologyApp = () => {
           <SearchBar onSearch={handleSearch} />
           <br></br>
           <FilterPanel onFilter={handleFilter} />
+          <br></br>
+          <FormControlLabel
+            label="Use RDF for Recommendations"
+            control={
+              <Switch
+                checked={useRdfRecommendations}
+                onChange={(e) => setUseRdfRecommendations(e.target.checked)}
+                color="primary"
+              />
+            }
+          />
         </Box>
 
         <Box sx={{ flex: "3 1 0px", p: 2, overflow: "hidden" }}>

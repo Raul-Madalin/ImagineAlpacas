@@ -282,7 +282,7 @@ def get_initial_images():
         return jsonify({"error": str(e)}), 500
     
 
-@app.route("/recommendations", methods=["POST"])
+@app.route("/rdf-recommendations", methods=["POST"])
 def get_recommendations():
     """
     Fetches the best 3 recommended chess puzzles based on normalized similarity.
