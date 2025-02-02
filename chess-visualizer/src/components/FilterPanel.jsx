@@ -1,29 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, FormControlLabel, Checkbox, Typography } from "@mui/material";
 
-const FilterPanel = ({ onFilter }) => {
-  const [selectedFilters, setSelectedFilters] = useState({
-    rooks: [],
-    queens: [],
-    bishops: [],
-    knights: [],
-    pawns: [],
-  });
-
-  const [expandedSections, setExpandedSections] = useState({
-    rooks: false,
-    queens: false,
-    bishops: false,
-    knights: false,
-    pawns: false,
-  });
-
+const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSections, setExpandedSections }) => {
   const pieceFilterOptions = {
     rooks: [0, 1, 2, "3+"],
     queens: [0, 1, "2+"],
     bishops: [0, 1, 2, "3+"],
     knights: [0, 1, 2, "3+"],
     pawns: [0, 1, 2, 3, 4, 5, 6, 7, 8, "9+"],
+    game_state: ["opening", "midgame", "endgame"],
   };
 
   const handleCheckboxChange = (piece, value) => {
@@ -43,10 +28,13 @@ const FilterPanel = ({ onFilter }) => {
     }));
   };
 
+  const handleApplyFilters = () => {
+    onFilter(selectedFilters);
+  };
 
-  useEffect(() => {
+  // useEffect(() => {
     
-  }, [selectedFilters]);
+  // }, [selectedFilters]);
 
   return (
     <div className="filters-container">
@@ -81,7 +69,7 @@ const FilterPanel = ({ onFilter }) => {
                   <input
                     type="checkbox"
                     value={option}
-                    checked={selectedFilters[piece].includes(option)}
+                    checked={(selectedFilters[piece] || []).includes(option)}
                     onChange={() => handleCheckboxChange(piece, option)}
                   />
                   {option}

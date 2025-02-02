@@ -145,13 +145,47 @@ def filter():
 
     if not filters or not puzzle_ids:
         return jsonify({"error": "Filters and puzzle IDs are required"}), 400
+    
+    game_state_filters = filters.pop("game_state", None)
+    
+    if game_state_filters is None or len(game_state_filters) == 0:
+        sparql_query = """
+        PREFIX chess: <http://imaginealpacas.org/chess/>
+        SELECT ?image ?puzzle_id ?next_player 
+            ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
+            ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
+        WHERE {
+            ?image chess:puzzle_id ?puzzle_id .
+            ?image chess:next_player ?next_player .
+            ?image chess:white_pieces ?white_pieces .
+            ?image chess:black_pieces ?black_pieces .
 
-    sparql_query = """
-    PREFIX chess: <http://imaginealpacas.org/chess/>
-    SELECT ?image ?puzzle_id ?next_player 
-           ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
-           ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
-    WHERE {
+            OPTIONAL { ?white_pieces chess:white_pieces_kings ?white_kings . }
+            OPTIONAL { ?white_pieces chess:white_pieces_queens ?white_queens . }
+            OPTIONAL { ?white_pieces chess:white_pieces_rooks ?white_rooks . }
+            OPTIONAL { ?white_pieces chess:white_pieces_bishops ?white_bishops . }
+            OPTIONAL { ?white_pieces chess:white_pieces_knights ?white_knights . }
+            OPTIONAL { ?white_pieces chess:white_pieces_pawns ?white_pawns . }
+
+            OPTIONAL { ?black_pieces chess:black_pieces_kings ?black_kings . }
+            OPTIONAL { ?black_pieces chess:black_pieces_queens ?black_queens . }
+            OPTIONAL { ?black_pieces chess:black_pieces_rooks ?black_rooks . }
+            OPTIONAL { ?black_pieces chess:black_pieces_bishops ?black_bishops . }
+            OPTIONAL { ?black_pieces chess:black_pieces_knights ?black_knights . }
+            OPTIONAL { ?black_pieces chess:black_pieces_pawns ?black_pawns . }
+        """
+    else:
+        sparql_query = """
+        PREFIX chess: <http://imaginealpacas.org/chess/>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+        SELECT 
+        ?image ?puzzle_id ?next_player
+        ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
+        ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
+        ?total_pieces 
+        ?computed_state
+        WHERE {
         ?image chess:puzzle_id ?puzzle_id .
         ?image chess:next_player ?next_player .
         ?image chess:white_pieces ?white_pieces .
@@ -170,7 +204,40 @@ def filter():
         OPTIONAL { ?black_pieces chess:black_pieces_bishops ?black_bishops . }
         OPTIONAL { ?black_pieces chess:black_pieces_knights ?black_knights . }
         OPTIONAL { ?black_pieces chess:black_pieces_pawns ?black_pawns . }
-    """
+
+        # 1) Sum all pieces
+        BIND(
+            (
+            COALESCE(xsd:integer(?white_kings), 0) +
+            COALESCE(xsd:integer(?white_queens), 0) +
+            COALESCE(xsd:integer(?white_rooks), 0) +
+            COALESCE(xsd:integer(?white_bishops), 0) +
+            COALESCE(xsd:integer(?white_knights), 0) +
+            COALESCE(xsd:integer(?white_pawns), 0) +
+            COALESCE(xsd:integer(?black_kings), 0) +
+            COALESCE(xsd:integer(?black_queens), 0) +
+            COALESCE(xsd:integer(?black_rooks), 0) +
+            COALESCE(xsd:integer(?black_bishops), 0) +
+            COALESCE(xsd:integer(?black_knights), 0) +
+            COALESCE(xsd:integer(?black_pawns), 0)
+            )
+            AS ?total_pieces
+        )
+
+        # 2) Classify ?total_pieces => ?computed_state
+        BIND(
+            IF(
+            ?total_pieces >= 24,
+            "opening",
+            IF(
+                ?total_pieces >= 14,
+                "midgame",
+                "endgame"
+            )
+            )
+            AS ?computed_state
+        )
+        """
 
     # Restrict to only puzzles currently displayed
     puzzle_id_list = ", ".join(map(str, puzzle_ids))
@@ -197,9 +264,14 @@ def filter():
     if piece_conditions:
         sparql_query += " ".join(piece_conditions)
 
+    if game_state_filters:
+        # e.g. ["opening","midgame","endgame"]
+        states_str = ", ".join(f'\"{s}\"' for s in game_state_filters)
+        sparql_query += f"\nFILTER(?computed_state IN ({states_str}))"
+
     sparql_query += "\n}ORDER BY ASC(xsd:integer(?puzzle_id))"
 
-    # print(sparql_query)
+    print(sparql_query)
 
     try:
         # Send SPARQL query to GraphDB
@@ -213,6 +285,7 @@ def filter():
                 "filename": extract_filename(binding["image"]["value"]),
                 "puzzle_id": binding.get("puzzle_id", {}).get("value", "N/A"),
                 "next_player": binding.get("next_player", {}).get("value", ""),
+                "game_state": binding.get("computed_state", {}).get("value", "unknown"),
                 "white_pieces": {
                     "kings": binding.get("white_kings", {}).get("value", "0"),
                     "queens": binding.get("white_queens", {}).get("value", "0"),

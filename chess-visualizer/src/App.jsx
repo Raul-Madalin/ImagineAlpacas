@@ -6,6 +6,24 @@ import Recommandations from "./components/Recommandations";
 import ImageGallery from "./components/ImageGallery";
 import axios from "axios";
 
+const DEFAULT_FILTER_STATE = {
+  rooks: [],
+  queens: [],
+  bishops: [],
+  knights: [],
+  pawns: [],
+  game_state: []
+};
+
+const DEFAULT_EXPANDED_SECTIONS = {
+  rooks: false,
+  queens: false,
+  bishops: false,
+  knights: false,
+  pawns: false,
+  game_state: false
+};
+
 const ChessOntologyApp = () => {
   const [images, setImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]); // Stores initial images (if no search)
@@ -15,6 +33,8 @@ const ChessOntologyApp = () => {
   const [isLoadingImages, setIsLoadingImages] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
   const [useRdfRecommendations, setUseRdfRecommendations] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState({ ...DEFAULT_FILTER_STATE });
+  const [expandedSections, setExpandedSections] = useState({ ...DEFAULT_EXPANDED_SECTIONS });
 
   useEffect(() => {
     const fetchInitialImages = async () => {
@@ -62,6 +82,9 @@ const ChessOntologyApp = () => {
       setSearchResults(response.data);
       setSearchOrFilterPerformed(true); 
 
+      setSelectedFilters({ ...DEFAULT_FILTER_STATE });
+      setExpandedSections({ ...DEFAULT_EXPANDED_SECTIONS });
+
       const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
       fetchRecommendations(visiblePuzzleIds);
     } catch (error) {
@@ -74,6 +97,7 @@ const ChessOntologyApp = () => {
   const handleFilter = async (filters) => {
     try {
       setIsLoadingImages(true);
+      setSelectedFilters(filters);
 
       const baseImages = searchOrFilterPerformed ? searchResults : originalImages;
       const puzzleIds = baseImages.map((image) => image.puzzle_id);
@@ -93,7 +117,8 @@ const ChessOntologyApp = () => {
       });
 
       setImages(response.data);
-      setSearchOrFilterPerformed(true); 
+      // setSearchResults(response.data);
+      // setSearchOrFilterPerformed(true); 
 
       const visiblePuzzleIds = response.data.slice(0, 6).map((image) => image.puzzle_id);
       fetchRecommendations(visiblePuzzleIds);
@@ -127,7 +152,13 @@ const ChessOntologyApp = () => {
         <Box sx={{ width: 250, bgcolor: "grey.200", p: 2, overflowY: "auto" }}>
           <SearchBar onSearch={handleSearch} />
           <br></br>
-          <FilterPanel onFilter={handleFilter} />
+          <FilterPanel 
+            onFilter={handleFilter} 
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+            expandedSections={expandedSections}
+            setExpandedSections={setExpandedSections}
+          />
           <br></br>
           <FormControlLabel
             label="Use RDF for Recommendations"
