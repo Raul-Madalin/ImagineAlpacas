@@ -1,0 +1,85 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix chess: <http://imaginealpacas.org/chess/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### SHACL Shape for Black Pieces ###
+chess:BlackPiecesShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf chess:black_pieces_kings ;
+
+    ## Constraint: Exactly 1 black king ##
+    sh:property [
+        sh:path chess:black_pieces_kings ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 1 ;
+        sh:message "Black must have exactly one king." ;
+    ] ;
+
+    ## Constraint: All black piece counts must be integers ##
+    sh:property [
+        sh:path (chess:black_pieces_kings chess:black_pieces_queens chess:black_pieces_rooks
+                 chess:black_pieces_bishops chess:black_pieces_knights chess:black_pieces_pawns) ;
+        sh:datatype xsd:integer ;
+        sh:message "All black piece counts must be integers." ;
+    ] ;
+
+    ## SPARQL Constraint: Sum of all black pieces must be ≤ 16 ##
+    sh:property [
+        sh:sparql [
+            sh:message "Black cannot have more than 16 pieces in total." ;
+            sh:select """
+            SELECT $this WHERE {
+                $this chess:black_pieces_kings ?k .
+                $this chess:black_pieces_queens ?q .
+                $this chess:black_pieces_rooks ?r .
+                $this chess:black_pieces_bishops ?b .
+                $this chess:black_pieces_knights ?n .
+                $this chess:black_pieces_pawns ?p .
+                BIND(?k + ?q + ?r + ?b + ?n + ?p AS ?total) .
+                FILTER(?total > 16)
+            }
+            """ ;
+        ] ;
+    ] .
+
+### SHACL Shape for White Pieces ###
+chess:WhitePiecesShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf chess:white_pieces_kings ;
+
+    ## Constraint: Exactly 1 white king ##
+    sh:property [
+        sh:path chess:white_pieces_kings ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 1 ;
+        sh:message "White must have exactly one king." ;
+    ] ;
+
+    ## Constraint: All white piece counts must be integers ##
+    sh:property [
+        sh:path (chess:white_pieces_kings chess:white_pieces_queens chess:white_pieces_rooks
+                 chess:white_pieces_bishops chess:white_pieces_knights chess:white_pieces_pawns) ;
+        sh:datatype xsd:integer ;
+        sh:message "All white piece counts must be integers." ;
+    ] ;
+
+    ## SPARQL Constraint: Sum of all white pieces must be ≤ 16 ##
+    sh:property [
+        sh:sparql [
+            sh:message "White cannot have more than 16 pieces in total." ;
+            sh:select """
+            SELECT $this WHERE {
+                $this chess:white_pieces_kings ?k .
+                $this chess:white_pieces_queens ?q .
+                $this chess:white_pieces_rooks ?r .
+                $this chess:white_pieces_bishops ?b .
+                $this chess:white_pieces_knights ?n .
+                $this chess:white_pieces_pawns ?p .
+                BIND(?k + ?q + ?r + ?b + ?n + ?p AS ?total) .
+                FILTER(?total > 16)
+            }
+            """ ;
+        ] ;
+    ] .

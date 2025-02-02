@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, CircularProgress, FormControlLabel, Switch } from "@mui/material";
+import { Box, CssBaseline, AppBar, Toolbar, Typography, Button, FormControlLabel, Switch } from "@mui/material";
 import SearchBar from "./components/SearchBar";
 import FilterPanel from "./components/FilterPanel";
 import Recommandations from "./components/Recommandations";

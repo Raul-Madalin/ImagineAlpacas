@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 
 const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSections, setExpandedSections }) => {
   const pieceFilterOptions = {
@@ -28,9 +27,9 @@ const FilterPanel = ({ onFilter, selectedFilters, setSelectedFilters, expandedSe
     }));
   };
 
-  const handleApplyFilters = () => {
-    onFilter(selectedFilters);
-  };
+  // const handleApplyFilters = () => {
+  //   onFilter(selectedFilters);
+  // };
 
   // useEffect(() => {
     

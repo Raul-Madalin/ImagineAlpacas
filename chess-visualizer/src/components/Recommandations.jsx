@@ -83,7 +83,7 @@ const Recommandations = ({ recommendations, isLoading }) => {
         overflow: "hidden", // or 'auto' if you want a scrollbar
       }}
     >
-      <Typography variant="h6">Recommended puzzles:</Typography>
+      <Typography variant="h6">Recommended <i>{recommendations.length > 0 ? recommendations[0].dominant_feature : "feature"}</i>:</Typography>
 
       {visibleRecs.length > 0 ? (
         visibleRecs.map((rec) => (

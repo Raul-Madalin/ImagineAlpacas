@@ -7,7 +7,7 @@ import requests
 
 app = Flask(__name__)
 CORS(app)
-GRAPHDB_ENDPOINT = "http://localhost:7200/repositories/chess-test-repo"
+GRAPHDB_ENDPOINT = "http://localhost:7200/repositories/chess-repo"
 
 def query_graphdb(sparql_query):
     """
@@ -773,6 +773,7 @@ def get_recommendations():
                     "knights": binding.get("black_knights", {}).get("value", "0"),
                     "pawns": binding.get("black_pawns", {}).get("value", "0"),
                 },
+                "dominant_feature": dominant_feature
             })
 
         x = [recommendation["puzzle_id"] for recommendation in recommendations]
