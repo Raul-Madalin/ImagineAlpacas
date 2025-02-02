@@ -1,30 +1,34 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Box, TextField, Button } from "@mui/material";
 
-const SearchBar = ({ setImages }) => {
-  const [query, setQuery] = useState('');
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:5000/search', {
-        params: { query },
-      });
-      setImages(response.data); // Update the Image Gallery
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
+const SearchBar = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search pieces (e.g., Rook Queen)"
+    <Box vocab="http://schema.org/" typeof="SearchAction">
+      
+      {/* Search Input Field with RDFa metadata */}
+      <TextField
+        fullWidth
+        label="Search Pieces (e.g., 'rooks pawns')"
+        variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        property="query-input"
+        sx={{ mb: 2 }}
       />
-      <button onClick={handleSearch}>Search</button>
-    </div>
+
+      {/* Search Button with RDFa metadata */}
+      <Button 
+        variant="contained" 
+        color="primary" 
+        fullWidth 
+        onClick={() => onSearch(query)}
+        property="target"
+      >
+        Search
+      </Button>
+    </Box>
   );
 };
 
