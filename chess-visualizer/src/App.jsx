@@ -124,7 +124,7 @@ const ChessOntologyApp = () => {
           <FilterPanel onFilter={handleFilter} />
         </Box>
 
-        <Box sx={{ flex: 1, p: 2, overflowY: "auto" }}>
+        <Box sx={{ flex: "3 1 0px", p: 2, overflow: "hidden" }}>
           <ImageGallery 
             images={images} 
             isLoading={isLoadingImages}
@@ -132,7 +132,14 @@ const ChessOntologyApp = () => {
           />
         </Box>
 
-        <Box sx={{ width: 400, bgcolor: "grey.200", p: 2, overflowY: "auto" }}>
+        <Box sx={{
+          flex: "1 1 0px",
+          bgcolor: "grey.200",
+          minWidth: 50,
+          maxWidth: 300,
+          p: 2,
+          overflow: "hidden"
+        }}>
           <Recommandations 
             recommendations={recommendations} 
             isLoading={isLoadingRecommendations}
