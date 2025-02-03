@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Report: A Chess-Based Web Application</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/scholarly-html/1.0.0/scholarly-html.min.css">
+</head>
+<body>
+  <header>
+    <h1>A Chess-Based Web Application: Technical Report</h1>
+    <p><em>Prepared by Raul-Madalin and Paul</em></p>
+    <p>February 3, 2025</p>
+  </header>
+ 
+  <section>
+    <h2>Abstract</h2>
+    <p>This technical report outlines the internal data structures, RESTful APIs, and RDF-based knowledge models used in a chess-based Web application. The report further describes the integration of external knowledge bases like Wikidata and DBpedia, the expressiveness of the ontology model, and its adherence to linked data principles. A comprehensive overview of the technical design and its impact on usability is provided.</p>
+  </section>
+
+
+  <section>
+    <h2>1. Internal Data Structures and Models</h2>
+    <p>The chess-based web application utilizes data structures designed to efficiently manage chess board configurations, user interactions, and game metadata. The backend, developed using Flask, handles data serialization and deserialization, ensuring smooth communication with the React frontend.</p>
+
+
+    <h3>1.1 Chess Puzzle Data Model</h3>
+    <p>The chess puzzle data model is the core structure of the application. It manages puzzle metadata, piece configurations, and associated RDF annotations. Key elements of this model include:</p>
+    <ul>
+      <li><strong>puzzle_id:</strong> A unique identifier for each chess puzzle, used across the system for querying, filtering, and recommendations.</li>
+      <li><strong>filename:</strong> The filename of the image representing the chess board state.</li>
+      <li><strong>next_player:</strong> Indicates the current turn (either white or black).</li>
+      <li><strong>white_pieces and black_pieces:</strong> Nested dictionaries representing the counts of specific chess pieces for each side: kings, queens, rooks, bishops, knights and pawns.</li>
+      <li><strong>game_state:</strong> Classifies puzzles into:
+opening (Games with all or most pieces present), midgame (Games with a moderate number of pieces remaining), endgame (Games with a few pieces left).</li>
+      <li><strong>metadata:</strong> The system enriches the data with schema.org-compatible annotations, ensuring interoperability with external semantic web platforms.</li>
+    </ul>
+
+
+    <h3>1.2 Game State Model</h3>
+    <p>The Game State Model captures the current chessboard configuration using FEN notation. It also tracks move history and player details to maintain the integrity of ongoing games. This model is essential for real-time updates and accurate representation of chess positions.</p>
+
+
+    <h3>1.3 Phase Classification ML Model</h3>
+    <p>The chess phase classification model was designed to categorize chessboard images into Opening, Middlegame, or Endgame based on the number of pieces present. For e.g. if the board is having most of the pieces present (more than 24) the game phase will be Opening. If there are less than 24 pieces and more than 14 the game phase is Middlegame. If the pieces left on the chess table are less than 12 then the game phase is Endgame.  Images were preprocessed by resizing them to 128x128 pixels, normalizing pixel values to a 0-1 range, and extracting the number of pieces from the FEN-encoded filenames. The extracted piece count determined the game phase label, which was one-hot encoded. One-hot encoding transforms them into a format compatible with categorical cross entropy loss, allowing the model to interpret and predict multi-class outputs effectively.
+        The model architecture used a Convolutional Neural Network (CNN) with three convolutional layers, each followed by max-pooling to reduce dimensionality while capturing essential features. The first layer used 32 filters, the second 64, and the third 128, all with a ReLU activation function to introduce non-linearity. After flattening the feature maps, the model had a dense layer with 128 neurons and a dropout of 0.5 to prevent overfitting. The output layer used a softmax activation to predict probabilities across the three game phases.
+        The model was compiled using the Adam optimizer with a learning rate of 0.001, categorical cross entropy as the loss function for multi-class classification, and accuracy as the performance metric. The training process used data generators to load batches of preprocessed images and labels, avoiding memory overload. A batch size of 32 was chosen to balance computational efficiency and model convergence. The training ran for 10 epochs, with model checkpoints saving the version with the lowest validation loss to prevent overfitting.
+        During training, the model aimed to minimize the categorical cross entropy loss, which measures the discrepancy between predicted and actual phase labels. A decreasing training and validation loss indicated successful learning, while stable or improving accuracy reflected the model's ability to generalize to unseen data. The final model was saved as chess_phase_model.h5. Later this was used in order to identify the game phase.</p>
+    <h3>1.4 Recommender ML Model</h3>
+    <p>The Recommender ML Model was developed to identify and retrieve visually similar chessboard images from a dataset, focusing purely on visual characteristics. By leveraging image-based feature extraction and similarity comparison techniques, the model enhances the ability to find chess images that look alike based on color and structural patterns. This approach is useful for applications where visual comparisons between different chessboard setups are needed.
+The k-NN model was used because of its simplicity, effectiveness, and ability to handle image similarity tasks without complex training. As a non-parametric, instance-based learning algorithm, k-NN stores feature representations of images and compares them during inference, making it ideal for tasks where direct feature comparisons can effectively identify similarities. Its straightforward implementation and interpretability make it suitable for comparing visual features like color histograms, which capture the distribution of pixel intensities in chessboard images.
+To extract these features, images were resized for consistency using cv2.resize(image, (128, 128)). A color histogram was computed with cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256]), capturing the distribution of colors across the RGB channels. The histogram was normalized and flattened using cv2.normalize(hist, hist).flatten() to ensure uniform scaling, allowing the model to compare images based on their color distribution effectively.
+Batch processing was implemented to manage memory efficiently, with images processed in groups to prevent system overload while maintaining speed. This ensured that even large datasets could be handled smoothly without performance issues.
+The k-NN model was initialized with NearestNeighbors(n_neighbors=1, metric='euclidean'), using Euclidean distance to measure the similarity between feature vectors. The model was trained by fitting the extracted features using knn.fit(test_features), enabling it to identify the closest visual match for any new query image.
+Finally, the trained model and the corresponding image paths were saved using joblib.dump((knn, test_image_paths), model_save_path) to facilitate future searches without reprocessing the dataset. With this approach, the system can efficiently retrieve visually similar chessboard images based purely on color and structural patterns, providing a straightforward and effective solution for visual chess image comparison.
+</p>
+
+
+    <p>The RDF data model supports semantic search and filtering of chess puzzles, integrating ontologies to classify game states and pieces effectively. The system employs a GraphDB database for storing RDF data, supporting SPARQL queries to retrieve complex chess logic and configurations.</p>
+  </section>
+
+
+  <section>
+    <h2>2. Technical Aspects Concerning the Implemented API(s)</h2>
+
+
+  <h3>2.1 Overview of the Web System Architecture</h3>
+  <p>
+    The web application adopts a <strong>REST-based microservices architecture</strong> to provide modularity, scalability, and interoperability. Each microservice is designed to handle a specific aspect of the application's functionality, such as filtering, recommendations, search, and image serving. The system is built using Flask for the backend and communicates via REST APIs.
+  </p>
+  <p>
+    Key architectural components include:
+  </p>
+  <ul>
+    <li><strong>Gateway Service</strong>: Acts as the entry point for all client requests, routing them to the appropriate microservice.</li>
+    <li><strong>Microservices</strong>: Each service has a well-defined scope and handles specific operations, such as filtering puzzles or providing recommendations.</li>
+    <li><strong>RDF Knowledge Graph</strong>: Integrated into the backend services via SPARQL queries to enrich the data with semantic context.</li>
+    <li><strong>Machine Learning Models</strong>: Used for game state classification and recommendations, complementing RDF-based reasoning.</li>
+  </ul>
+
+
+  <h3>2.2 Implemented REST API Endpoints</h3>
+
+
+  <h4>2.2.1 Filter Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/filter</code></li>
+    <li><strong>Description</strong>: Filters puzzles based on user-defined criteria (e.g., piece counts, game state).</li>
+    <li><strong>Methods</strong>: <code>POST</code></li>
+    <li><strong>Input</strong>:
+      <pre><code>{
+  "filters": {
+    "rooks": ["2+"],
+    "queens": ["1"],
+    "game_state": ["midgame"]
+  },
+  "puzzle_ids": [1, 2, 3]
+}</code></pre>
+    </li>
+    <li><strong>Output</strong>:
+      <pre><code>[
+  {
+    "puzzle_id": "1",
+    "filename": "puzzle1.png",
+    "next_player": "white",
+    "white_pieces": { "kings": "1", "queens": "1", "rooks": "2", "bishops": "2", "knights": "2", "pawns": "8" },
+    "black_pieces": { "kings": "1", "queens": "1", "rooks": "2", "bishops": "2", "knights": "2", "pawns": "8" },
+    "metadata": {
+      "@context": "http://schema.org/",
+      "@type": "ImageObject",
+      "identifier": "1",
+      "name": "Chess Puzzle 1",
+      "contentUrl": "http://example.com/images/puzzle1.png",
+      "encodingFormat": "image/png"
+    }
+  }
+]</code></pre>
+    </li>
+  </ul>
+
+
+  <h4>2.2.2 Filter ML Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/filter/game-state-ml</code></li>
+    <li><strong>Description</strong>: Filters puzzles based on machine learning predictions of game state.</li>
+    <li><strong>Methods</strong>: <code>POST</code></li>
+    <li><strong>Input</strong>:
+      <pre><code>{
+  "puzzle_ids": [1, 2, 3],
+  "game_state": ["midgame"]
+}</code></pre>
+    </li>
+    <li><strong>Output</strong>: Similar to the <code>/filter</code> service but uses ML predictions for game state classification.</li>
+  </ul>
+
+
+  <h4>2.2.3 Filter RDF Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/filter/game-state-rdf</code></li>
+    <li><strong>Description</strong>: Filters puzzles based on RDF-based reasoning and SPARQL queries.</li>
+    <li><strong>Methods</strong>: <code>POST</code></li>
+    <li><strong>Input</strong>:
+      <pre><code>{
+  "puzzle_ids": [1, 2, 3],
+  "game_state": ["opening", "endgame"]
+}</code></pre>
+    </li>
+    <li><strong>Output</strong>: Similar to the <code>/filter</code> service but uses SPARQL-based filtering logic.</li>
+  </ul>
+
+
+  <h4>2.2.4 Search Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/search</code></li>
+    <li><strong>Description</strong>: Searches for puzzles based on piece configurations.</li>
+    <li><strong>Methods</strong>: <code>GET</code></li>
+    <li><strong>Input</strong>: <code>/search?query=rooks+queens</code></li>
+    <li><strong>Output</strong>:
+      <pre><code>[
+  {
+    "puzzle_id": "1",
+    "filename": "puzzle1.png",
+    "white_pieces": {...},
+    "black_pieces": {...},
+    "metadata": {...}
+  }
+]</code></pre>
+    </li>
+  </ul>
+
+
+  <h4>2.2.5 Recommendation Services</h4>
+  <p><strong>RDF Recommendations</strong>:</p>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/rdf-recommendations</code></li>
+    <li><strong>Description</strong>: Provides recommendations using SPARQL queries based on dominant game features.</li>
+    <li><strong>Methods</strong>: <code>POST</code></li>
+    <li><strong>Input</strong>:
+      <pre><code>{
+  "puzzle_ids": [1, 2, 3]
+}</code></pre>
+    </li>
+    <li><strong>Output</strong>:
+      <pre><code>[
+  {
+    "puzzle_id": "2",
+    "filename": "puzzle2.png",
+    "dominant_feature": "queens",
+    "metadata": {...}
+  }
+]</code></pre>
+    </li>
+  </ul>
+
+
+  <p><strong>ML Recommendations</strong>:</p>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/ml-recommendations</code></li>
+    <li><strong>Description</strong>: Uses a K-Nearest Neighbors (KNN) model to recommend similar puzzles.</li>
+    <li><strong>Methods</strong>: <code>POST</code></li>
+    <li><strong>Input</strong>:
+      <pre><code>{
+  "puzzle_ids": [1, 2, 3]
+}</code></pre>
+    </li>
+    <li><strong>Output</strong>: Similar to RDF recommendations but based on ML inference.</li>
+  </ul>
+
+
+  <h4>2.2.6 Image Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/images/&lt;filename&gt;</code></li>
+    <li><strong>Description</strong>: Serves chess board images.</li>
+    <li><strong>Methods</strong>: <code>GET</code></li>
+    <li><strong>Input</strong>: <code>/images/puzzle1.png</code></li>
+    <li><strong>Output</strong>: Returns the image file or a 404 error if the file is not found.</li>
+  </ul>
+
+
+  <h4>2.2.7 Initial Load Service</h4>
+  <ul>
+    <li><strong>Endpoint</strong>: <code>/initial</code></li>
+    <li><strong>Description</strong>: Fetches a predefined number of puzzles for the initial application state.</li>
+    <li><strong>Methods</strong>: <code>GET</code></li>
+    <li><strong>Output</strong>:
+      <pre><code>[
+  {
+    "puzzle_id": "1",
+    "filename": "puzzle1.png",
+    "metadata": {...}
+  }
+]</code></pre>
+    </li>
+  </ul>
+
+
+    <h4>2.2.8 REST Design Principles</h3>
+  <p>The API adheres to REST principles, including:</p>
+  <ul>
+    <li><strong>Statelessness</strong>: Each request from the client contains all necessary information, and the server does not retain client state between requests.</li>
+    <li><strong>Resource-Based URIs</strong>: The endpoints are designed around resources (e.g., <code>/filter</code>, <code>/images/&lt;filename&gt;</code>).</li>
+    <li><strong>HTTP Methods</strong>:
+      <ul>
+        <li><code>GET</code>: Used for retrieving resources (e.g., <code>/search</code>, <code>/images</code>).</li>
+        <li><code>POST</code>: Used for filtering, recommendations, and other operations requiring a payload (e.g., <code>/filter</code>, <code>/rdf-recommendations</code>).</li>
+      </ul>
+    </li>
+    <li><strong>Uniform Interface</strong>: Consistent structure for input and output across endpoints.</li>
+  </ul>
+
+
+  <h4>2.2.9 Error Handling</h3>
+  <p>The API implements robust error handling:</p>
+  <ul>
+    <li><strong>Validation Errors</strong>: Returns <code>400 Bad Request</code> for invalid inputs.</li>
+    <li><strong>Server Errors</strong>: Returns <code>500 Internal Server Error</code> for unexpected issues.</li>
+    <li><strong>Not Found</strong>: Returns <code>404 Not Found</code> for missing resources (e.g., images).</li>
+  </ul>
+
+
+  <h4>2.2.10 API Documentation</h3>
+  <p>The API is documented using OpenAPI, enabling developers to explore and test endpoints interactively. Each endpoint is described with:</p>
+  <ul>
+    <li>Input parameters and expected payloads.</li>
+    <li>Example responses for both success and error scenarios.</li>
+  </ul>
+
+
+  <section>
+    <h2>3. Considerations Regarding the Designed/Reused RDF-Based Knowledge Model(s)</h2>
+
+
+  <h3>3.1 Overview of the RDF Ontology</h3>
+  <p>
+    The RDF ontology designed for this system is tailored for chess puzzle representations. It uses <code>http://imaginealpacas.org/chess/</code> as the primary namespace and models both individual chess puzzles and their constituent elements such as white and black piece configurations, castling rights, en passant status, and the next player to move.
+  </p>
+
+
+  <h3>3.2 Key Entities and Properties</h3>
+  <ul>
+    <li><strong>ChessPieceCollection</strong>: Represents the collection of chess pieces for a particular side (e.g., white or black). Each collection includes detailed counts of pieces by type: kings, queens, rooks, bishops, knights, and pawns.</li>
+    <li><strong>Puzzle</strong>: Represents a chess puzzle. Key properties include:
+      <ul>
+        <li><code>chess:puzzle_id</code>: A unique identifier for the puzzle.</li>
+        <li><code>chess:next_player</code>: Specifies whether it is white's or black's turn.</li>
+        <li><code>chess:white_pieces</code> and <code>chess:black_pieces</code>: Links to <code>ChessPieceCollection</code> instances describing the piece configurations.</li>
+        <li>Castling and en passant properties, such as <code>chess:white_castling_kingside</code> and <code>chess:en_passant_black</code>.</li>
+      </ul>
+    </li>
+  </ul>
+
+
+  <h3>3.3 Expressiveness and Usage</h3>
+  <p>
+    The ontology is designed to be both expressive and efficient for representing chess puzzles. Key aspects of expressiveness include:
+  </p>
+  <ul>
+    <li><strong>Granularity</strong>: The ontology captures fine-grained details about individual chess pieces, enabling precise filtering and reasoning.</li>
+    <li><strong>Flexibility</strong>: It supports various puzzle scenarios, including edge cases such as no available pawns or special castling conditions.</li>
+    <li><strong>Interoperability</strong>: The use of RDF and standard XML Schema datatypes ensures compatibility with semantic web technologies and external knowledge graphs.</li>
+  </ul>
+
+
+  <h3>3.4 Integration with Semantic Web Principles</h3>
+  <p>
+    The ontology is designed with semantic web principles in mind, including:
+  </p>
+  <ul>
+    <li><strong>Linked Data</strong>: Resources are identified by URIs (e.g., individual puzzles and piece collections). These URIs facilitate linking to external datasets and reasoning engines.</li>
+    <li><strong>SPARQL Queries</strong>: The system uses SPARQL for querying the RDF graph, enabling advanced reasoning and data retrieval. For example:
+      <pre><code>SELECT ?puzzle ?nextPlayer WHERE {
+  ?puzzle chess:next_player "white" ;
+          chess:white_pieces ?whitePieces .
+  ?whitePieces chess:white_pieces_queens ?queenCount .
+  FILTER (?queenCount > 0)
+}</code></pre>
+      This query retrieves puzzles where it is white's turn, and white has at least one queen.
+    </li>
+    <li><strong>Reusability</strong>: The ontology can be extended to incorporate additional chess-related concepts, such as move sequences or evaluations.</li>
+  </ul>
+
+
+  <h3>3.5 Real Usage in the Developed System</h3>
+  <p>
+    The ontology serves as the backbone of the recommendation and filtering services. Examples include:
+  </p>
+  <ul>
+    <li>Using <code>chess:puzzle_id</code> and piece collections to dynamically generate recommendations based on user preferences.</li>
+    <li>SPARQL queries to filter puzzles by specific game states or piece configurations.</li>
+  </ul>
+  </section>
+
+
+  <section>
+    <h2>4. Pragmatic Use of External Data/Knowledge Sources</h2>
+
+
+  <h3>4.1. Use of External Data Sources</h3>
+  <p>
+    The system leverages the Kaggle dataset 
+    <a href="https://www.kaggle.com/datasets/koryakinp/chess-positions/data" target="_blank">
+      Chess Positions</a> 
+    as a foundational knowledge source. This dataset provides a structured representation of chess positions using Forsyth–Edwards Notation (FEN) and metadata relevant to game analysis.
+  </p>
+  <p>
+    This dataset has been converted into an RDF-based knowledge model, enabling efficient querying and classification of chess puzzles based on piece configurations, move history, and strategic phases (opening, midgame, endgame).
+  </p>
+
+
+  <h3>4.2. RDF-Based Chess Knowledge Model</h3>
+  <p>
+    The system models chess puzzles in an RDF store where each puzzle is represented as an entity containing metadata such as:
+  </p>
+  <ul>
+    <li>Puzzle ID</li>
+    <li>Current board state</li>
+    <li>Next player to move</li>
+    <li>Piece distribution (number of kings, queens, bishops, rooks, knights, pawns)</li>
+    <li>Game state classification (opening, midgame, endgame)</li>
+  </ul>
+
+
+  <h3>4.3. Game State Classification Using SPARQL</h3>
+  <p>
+    The following SPARQL query, used in the `filter_rdf_service`, retrieves chess puzzles based on their classified game state.
+    The classification is dynamically determined by summing the number of total pieces on the board:
+  </p>
+  <ul>
+    <li>Opening: ≥ 24 total pieces</li>
+    <li>Midgame: 14 - 23 total pieces</li>
+    <li>Endgame: &lt; 14 total pieces</li>
+  </ul>
+  
+  <pre><code>
+PREFIX chess: &lt;http://imaginealpacas.org/chess/&gt;
+PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+
+
+SELECT 
+  ?image ?puzzle_id ?next_player
+  ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
+  ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
+  ?total_pieces 
+  ?computed_state
+WHERE {
+  ?image chess:puzzle_id ?puzzle_id .
+  ?image chess:next_player ?next_player .
+  ?image chess:white_pieces ?white_pieces .
+  ?image chess:black_pieces ?black_pieces .
+
+
+  OPTIONAL { ?white_pieces chess:white_pieces_kings ?white_kings . }
+  OPTIONAL { ?white_pieces chess:white_pieces_queens ?white_queens . }
+  OPTIONAL { ?white_pieces chess:white_pieces_rooks ?white_rooks . }
+  OPTIONAL { ?white_pieces chess:white_pieces_bishops ?white_bishops . }
+  OPTIONAL { ?white_pieces chess:white_pieces_knights ?white_knights . }
+  OPTIONAL { ?white_pieces chess:white_pieces_pawns ?white_pawns . }
+
+
+  OPTIONAL { ?black_pieces chess:black_pieces_kings ?black_kings . }
+  OPTIONAL { ?black_pieces chess:black_pieces_queens ?black_queens . }
+  OPTIONAL { ?black_pieces chess:black_pieces_rooks ?black_rooks . }
+  OPTIONAL { ?black_pieces chess:black_pieces_bishops ?black_bishops . }
+  OPTIONAL { ?black_pieces chess:black_pieces_knights ?black_knights . }
+  OPTIONAL { ?black_pieces chess:black_pieces_pawns ?black_pawns . }
+
+
+  BIND(
+    (
+      COALESCE(xsd:integer(?white_kings), 0) +
+      COALESCE(xsd:integer(?white_queens), 0) +
+      COALESCE(xsd:integer(?white_rooks), 0) +
+      COALESCE(xsd:integer(?white_bishops), 0) +
+      COALESCE(xsd:integer(?white_knights), 0) +
+      COALESCE(xsd:integer(?white_pawns), 0) +
+      COALESCE(xsd:integer(?black_kings), 0) +
+      COALESCE(xsd:integer(?black_queens), 0) +
+      COALESCE(xsd:integer(?black_rooks), 0) +
+      COALESCE(xsd:integer(?black_bishops), 0) +
+      COALESCE(xsd:integer(?black_knights), 0) +
+      COALESCE(xsd:integer(?black_pawns), 0)
+    )
+    AS ?total_pieces
+  )
+
+
+  BIND(
+    IF(
+      ?total_pieces >= 24,
+      "opening",
+      IF(
+        ?total_pieces >= 14,
+        "midgame",
+        "endgame"
+      )
+    ) AS ?computed_state
+  )
+}
+  </code></pre>
+
+
+  <h3>4.4. Integration with Linked Data Principles</h3>
+  <p>
+    The RDF-based model follows Linked Data principles by:
+  </p>
+  <ul>
+    <li><strong>Using Unique Identifiers:</strong> Each chess puzzle is assigned a unique URI (e.g., <code>http://imaginealpacas.org/chess/{puzzle_id}</code>).</li>
+    <li><strong>Reusing Standard Vocabularies:</strong> The RDF schema integrates structured data representations from 
+        <a href="https://schema.org/" target="_blank">Schema.org</a> to ensure interoperability.</li>
+    <li><strong>Semantic Querying:</strong> SPARQL queries enable retrieval and classification of chess positions based on game state and piece composition.</li>
+  </ul>
+
+
+  <h3>4.5. Practical Applications</h3>
+  <p>
+    The RDF-powered query system allows for:
+  </p>
+  <ul>
+    <li>Filtering chess puzzles based on the game state.</li>
+    <li>Classifying positions dynamically based on the number of pieces.</li>
+    <li>Facilitating intelligent search and retrieval of relevant chess positions.</li>
+  </ul>
+  </section>
+
+
+  <section>
+    <h2>Conclusion</h2>
+    <p>This technical report detailed the internal data structures, API implementation, RDF-based knowledge models, and integration of external knowledge sources for the chess-based web application. The design choices enhance both the functionality and the semantic richness of the application, offering a robust platform for chess enthusiasts and researchers alike.</p>
+  </section>
+
+
+  <footer>
+    <p>© 2025 Raul-Madalin and Paul</p>
+  </footer>
+
+
+</body>
+</html>
+
+
+
+
+
