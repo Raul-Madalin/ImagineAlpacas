@@ -62,3 +62,78 @@ This application allows users to explore chess puzzles using RDF data, search an
 - Chess pieces ontology includes kings, queens, rooks, bishops, knights, and pawns.
 - SPARQL filters allow searching chess puzzles based on piece configurations.
 - Game state classification identifies puzzles as "Opening", "Midgame", or "Endgame".
+
+## Project Structure
+```plaintext
+WADE_IMAGINEALPACAS/
+│
+├── app/
+│   ├── model/
+│   │   └── (Contains model files like `chess_phase_model.h5`)
+│   ├── recommender/
+│   │   └── (Contains recommendation logic and models, e.g., `knn_model.pkl`)
+│   ├── training/
+│   │   └── (Contains training scripts or resources)
+│   ├── trainingv2/
+│   │   └── (Contains version 2 of training scripts or resources)
+│   ├── utils/
+│   │   ├── config.py
+│   │   ├── graphdb_utils.py
+│   │   ├── setup_rdf.py
+│   │   └── __init__.py
+│   └── main.py
+│
+├── chess_microservices/
+│   ├── microservices/
+│   │   ├── filter_ml_service.py
+│   │   ├── filter_rdf_service.py
+│   │   ├── filter_service.py
+│   │   ├── image_service.py
+│   │   ├── initial_load_service.py
+│   │   ├── recommendation_ml_service.py
+│   │   ├── recommendation_service.py
+│   │   └── search_service.py
+│   └── utils/
+│       ├── config.py
+│       ├── graphdb_utils.py
+│       ├── setup_rdf.py
+│       └── __init__.py
+│
+├── chess-visualizer/
+│   ├── build/
+│   │   └── (Contains built frontend files for deployment)
+│   ├── node_modules/
+│   │   └── (Contains dependencies for React)
+│   ├── public/
+│   │   └── (Static assets for React app)
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── FilterPanel.jsx
+│   │   │   ├── ImageGallery.jsx
+│   │   │   ├── Recommendations.jsx
+│   │   │   └── SearchBar.jsx
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── App.test.js
+│   │   ├── config.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── logo.svg
+│   │   ├── reportWebVitals.js
+│   │   └── setupTests.js
+│
+├── dataset/
+│   ├── test/
+│   │   └── (Contains test images or data)
+│   └── train/
+│       └── (Contains training images or data)
+│
+├── .gitignore
+├── chess-shapes.ttl
+├── ontology.rdf
+├── package.json
+├── package-lock.json
+├── README.md
+├── requirements.txt
+└── gateway.py
+```
