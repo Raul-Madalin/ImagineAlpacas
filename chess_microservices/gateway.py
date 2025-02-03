@@ -23,4 +23,4 @@ app.register_blueprint(image_blueprint, url_prefix="/images")
 app.register_blueprint(initial_load_blueprint, url_prefix="/")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
