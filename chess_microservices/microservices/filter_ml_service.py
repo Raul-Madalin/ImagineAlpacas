@@ -12,7 +12,7 @@ filter_ml_blueprint = Blueprint("filter_game_state_ml", __name__)
 
 temp_path = os.path.dirname(os.path.dirname(__file__))
 temp_path = os.path.dirname(temp_path)
-temp_path = f"{temp_path}\\app\\model\\chess_phase_model.h5"
+temp_path = os.path.join(temp_path, "app", "model", "chess_phase_model.h5")
 model = load_model(temp_path)
 
 # Preprocess image function

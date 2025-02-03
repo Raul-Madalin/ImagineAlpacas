@@ -9,8 +9,8 @@ import numpy as np
 # === Paths ===
 path = os.path.dirname(os.path.dirname(__file__))
 path = os.path.dirname(path)
-TEST_DIR = f"{path}\\dataset\\test"
-MODEL_PATH = f"{path}\\app\\recommender\\knn_model.pkl"
+TEST_DIR = os.path.join(path, "dataset", "test")
+MODEL_PATH = os.path.join(path, "app", "recommender", "knn_model.pkl")
 
 knn, train_image_paths = joblib.load(MODEL_PATH)
 
