@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 import requests
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model # type: ignore
 import numpy as np
 import cv2
 import os
@@ -13,7 +13,6 @@ filter_ml_blueprint = Blueprint("filter_game_state_ml", __name__)
 temp_path = os.path.dirname(os.path.dirname(__file__))
 temp_path = os.path.dirname(temp_path)
 temp_path = f"{temp_path}\\app\\model\\chess_phase_model.h5"
-print(temp_path)
 model = load_model(temp_path)
 
 # Preprocess image function
