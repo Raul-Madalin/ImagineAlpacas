@@ -43,6 +43,7 @@ def get_recommendations():
         # SPARQL query to fetch the image URIs (the subject in our RDF triples) for the given puzzle ids.
         sparql_query = f"""
         PREFIX chess: <http://imaginealpacas.org/chess/>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         SELECT ?image ?puzzle_id
         WHERE {{
             ?image chess:puzzle_id ?puzzle_id .

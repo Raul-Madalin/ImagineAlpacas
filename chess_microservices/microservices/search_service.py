@@ -29,6 +29,7 @@ def search():
 
     sparql_query = f"""
     PREFIX chess: <http://imaginealpacas.org/chess/>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     SELECT ?image ?puzzle_id ?next_player ?white_kings ?white_queens ?white_rooks ?white_bishops ?white_knights ?white_pawns
            ?black_kings ?black_queens ?black_rooks ?black_bishops ?black_knights ?black_pawns
            ?white_castling_kingside ?white_castling_queenside

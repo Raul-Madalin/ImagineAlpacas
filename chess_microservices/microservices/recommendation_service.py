@@ -22,6 +22,7 @@ def get_recommendations():
     # Query to analyze displayed puzzles
     displayed_query = f"""
     PREFIX chess: <http://imaginealpacas.org/chess/>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     SELECT (COUNT(?puzzle) AS ?total_puzzles)
            (SUM(IF((?next_player = "white" && (?white_castling_kingside = true || ?white_castling_queenside = true)) ||
                    (?next_player = "black" && (?black_castling_kingside = true || ?black_castling_queenside = true)), 1, 0)) AS ?has_castling)

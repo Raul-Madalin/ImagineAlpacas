@@ -2,7 +2,7 @@ import os
 import cv2
 import joblib
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 
 # === Paths ===
 test_dir = 'dataset/test'
