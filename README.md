@@ -3,6 +3,8 @@
 ## **Overview**
 This application allows users to explore chess puzzles using RDF data, search and filter puzzles based on piece configurations, and receive recommendations for similar puzzles.
 
+Youtube presentation [here](https://youtu.be/P1RAD74WKlA).
+
 ---
 
 ## **1. Backend: Flask API (Microservices)**
