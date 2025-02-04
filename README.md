@@ -3,15 +3,17 @@
 ## **Overview**
 This application allows users to explore chess puzzles using RDF data, search and filter puzzles based on piece configurations, and receive recommendations for similar puzzles.
 
-Youtube presentation [here](https://youtu.be/P1RAD74WKlA).
+- Youtube presentation [here](https://youtu.be/P1RAD74WKlA).
+- Visual representation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/WADe.jpg).
+- OpenAPI documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/openapi.yaml).
+- Tehnical documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/report.html).
+- Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki/Project-Progress).
 
-Visual representation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/WADe.jpg).
+### **AWS Deployment** - *shutdown at the moment*
 
-OpenAPI documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/openapi.yaml).
-
-Tehnical documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/report.html).
-
-Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki/Project-Progress).
+- Apache Jena [here](http://3.80.124.45:3030)
+- React [here](http://54.226.17.197:3000)
+- Flask [here](http://54.157.41.92:5000)
 
 ---
 
@@ -65,10 +67,12 @@ Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki
 - Stores chess puzzles as RDF data.
 - Supports SPARQL queries for complex chess logic.
 - Enables semantic search and filtering.
-- Technology Stack
+
+### **Technology Stack**
 - GraphDB – Ontotext’s RDF database.
 - SPARQL – Query language for RDF.
 - RDF Schema – Defines chess puzzle structure.
+
 ### **Key Concepts**
 - Chess pieces ontology includes kings, queens, rooks, bishops, knights, and pawns.
 - SPARQL filters allow searching chess puzzles based on piece configurations.
