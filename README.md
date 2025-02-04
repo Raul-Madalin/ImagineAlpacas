@@ -15,10 +15,11 @@ Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki
 
 ---
 
-## **1. Backend: Flask API (Microservices)**
+## **1. Backend: Flask API (Microservices) + ML using K-NN and CNN **
 ### **Purpose**
 - Handles search, filtering, recommendations, image serving, and initial loading of chess puzzles.
 - Connects to GraphDB for RDF-based chess ontology queries.
+- Recommends visually similar images and categorizes puzzle by game state (opening / midgame / endgame) (in /app).
 
 ### **Technology Stack**
 - **Flask** (Python) – REST API framework
