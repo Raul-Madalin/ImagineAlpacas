@@ -5,6 +5,12 @@ This application allows users to explore chess puzzles using RDF data, search an
 
 Youtube presentation [here](https://youtu.be/P1RAD74WKlA).
 
+Visual representation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/WADe.jpg).
+
+OpenAPI documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/openapi.yaml).
+
+Tehnical documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/report.html).
+
 ---
 
 ## **1. Backend: Flask API (Microservices)**
