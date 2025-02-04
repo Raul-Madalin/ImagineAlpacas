@@ -11,6 +11,8 @@ OpenAPI documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas
 
 Tehnical documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/report.html).
 
+Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki/Project-Progress).
+
 ---
 
 ## **1. Backend: Flask API (Microservices)**
