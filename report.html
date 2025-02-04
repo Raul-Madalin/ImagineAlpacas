@@ -130,7 +130,7 @@ Finally, the trained model and the corresponding image paths were saved using jo
   "game_state": ["midgame"]
 }</code></pre>
     </li>
-    <li><strong>Output</strong>: Similar to the <code>/filter</code> service but uses ML predictions for game state classification.</li>
+    <li><strong>Output</strong>: Almost similar to the <code>/filter_rdf_service</code> but uses ML predictions for game state classification, therefore has the following disadvantages: takes way longer times to load and precision will never be 100%, resulting in puzzle that should have been displayed to be missing or to display puzzle that are not the correct state.</li>
   </ul>
 
 
@@ -203,7 +203,7 @@ Finally, the trained model and the corresponding image paths were saved using jo
   "puzzle_ids": [1, 2, 3]
 }</code></pre>
     </li>
-    <li><strong>Output</strong>: Similar to RDF recommendations but based on ML inference.</li>
+    <li><strong>Output</strong>: Almost similar to RDF recommendations but being based on ML inference, it has the following disadvantages: longer times to load and visual similiarity is not as useful in our user's use cases (they would use recommendations based on chess characteristics).</li>
   </ul>
 
 
