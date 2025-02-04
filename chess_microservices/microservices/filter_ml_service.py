@@ -1,16 +1,19 @@
 from flask import request, jsonify, Blueprint
-from tensorflow.keras.models import load_model
+import requests
+from tensorflow.keras.models import load_model # type: ignore
 import numpy as np
 import cv2
 import os
 from utils.graphdb_utils import query_graphdb, extract_filename
 import tensorflow as tf
+from config import BASE_URL
 
 filter_ml_blueprint = Blueprint("filter_game_state_ml", __name__)
 
-# path = os.path.dirname(os.path.dirname(__file__))
-# path = os.path.dirname(path)
-# model = load_model(path)
+temp_path = os.path.dirname(os.path.dirname(__file__))
+temp_path = os.path.dirname(temp_path)
+temp_path = os.path.join(temp_path, "app", "model", "chess_phase_model.h5")
+model = load_model(temp_path)
 
 # Preprocess image function
 def preprocess_image(image_path):
@@ -83,7 +86,8 @@ def filter_game_state_ml():
     """
     puzzle_id_list = ", ".join(map(str, puzzle_ids))
     sparql_query += f"\nFILTER (?puzzle_id IN ({puzzle_id_list}))"
-    sparql_query += "\n}LIMIT 100"
+    sparql_query += "\n}"
+    # sparql_query += "\n}LIMIT 100"
 
     try:
         sparql_results = query_graphdb(sparql_query)
@@ -93,37 +97,32 @@ def filter_game_state_ml():
     candidates = []
     for binding in sparql_results["results"]["bindings"]:
         candidates.append({
-            "puzzle_id": binding.get("puzzle_id", {}).get("value", "N/A"),
-            "filename": extract_filename(binding["image"]["value"]),
-            "image_url": f"dataset/test/{extract_filename(binding['image']['value'])}",  # Adjust path as needed
-            "next_player": binding.get("next_player", {}).get("value", ""),
-            "white_pieces": {
-                "kings": binding.get("white_kings", {}).get("value", "0"),
-                "queens": binding.get("white_queens", {}).get("value", "0"),
-                "rooks": binding.get("white_rooks", {}).get("value", "0"),
-                "bishops": binding.get("white_bishops", {}).get("value", "0"),
-                "knights": binding.get("white_knights", {}).get("value", "0"),
-                "pawns": binding.get("white_pawns", {}).get("value", "0"),
-            },
-            "black_pieces": {
-                "kings": binding.get("black_kings", {}).get("value", "0"),
-                "queens": binding.get("black_queens", {}).get("value", "0"),
-                "rooks": binding.get("black_rooks", {}).get("value", "0"),
-                "bishops": binding.get("black_bishops", {}).get("value", "0"),
-                "knights": binding.get("black_knights", {}).get("value", "0"),
-                "pawns": binding.get("black_pawns", {}).get("value", "0"),
-            }
-        })
+                "filename": extract_filename(binding["image"]["value"]),
+                "puzzle_id": binding.get("puzzle_id", {}).get("value", ""),
+                "next_player": binding.get("next_player", {}).get("value", ""),
+                "game_state": binding.get("computed_state", {}).get("value", "unknown"),
+                "metadata": {  # RDF-Compatible metadata
+                  "@context": "http://schema.org/",
+                  "@type": "ImageObject",
+                  "identifier": binding.get("puzzle_id", {}).get("value", ""),
+                  "name": f"Chess Puzzle {binding.get("puzzle_id", {}).get("value", "")}",
+                  "contentUrl": f"{BASE_URL}/images/{extract_filename(binding["image"]["value"])}",
+                  "encodingFormat": "image/png",
+                }
+            })
 
     print(f"Found {len(candidates)} candidates for ML-based filtering")
     # --------------- 2) Pass Images to ML Model ---------------
     filtered_puzzles = []
     for candidate in candidates:
         try:
-            image_path = candidate["image_url"]
-            if not os.path.exists(image_path):
-                # print(f"Image not found: {image_path}")
-                continue
+            temp_path = os.path.dirname(os.path.dirname(__file__))
+            temp_path = os.path.dirname(temp_path)
+            image_path = f"{temp_path}/dataset/test/{candidate["filename"]}"
+            # response = requests.get(image_path, stream=True)
+            # if not os.path.exists(image_path):
+            #     print(f"Image not found: {image_path}")
+            #     continue
 
             predicted_phase = predict_game_state(image_path)
             if predicted_phase in game_states:

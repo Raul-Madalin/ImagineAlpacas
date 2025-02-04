@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: Chess Ontology API
+  description: REST API for searching, filtering, recommending, and retrieving chess puzzle images.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local Development Server
+
+paths:
+  /search:
+    get:
+      summary: Search for chess puzzles
+      description: Searches for chess puzzles based on query parameters.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: Chess piece types to filter results (e.g., "rook", "queen").
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved search results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Bad request due to missing query parameter.
+
+  /filter:
+    post:
+      summary: Filter chess puzzles based on piece configuration
+      description: Filters chess puzzles by piece count and optionally by game phase.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  description: Piece and game-state filters.
+                  example: { "rooks": ["2+"], "game_state": ["midgame"] }
+                puzzle_ids:
+                  type: array
+                  items:
+                    type: string
+                game_state_filter_endpoint:
+                  type: string
+      responses:
+        "200":
+          description: Successfully filtered chess puzzles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Missing required puzzle IDs.
+
+  /filter/game-state-rdf:
+    post:
+      summary: RDF-based game state filtering
+      description: Filters puzzles based on RDF-derived game states.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                puzzle_ids:
+                  type: array
+                  items:
+                    type: string
+                game_state:
+                  type: array
+                  items:
+                    type: string
+                  example: ["opening", "midgame"]
+      responses:
+        "200":
+          description: Successfully filtered game states using RDF.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Missing puzzle IDs.
+
+  /filter/game-state-ml:
+    post:
+      summary: ML-based game state filtering
+      description: Uses a trained ML model to predict and filter chess puzzle game states.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                puzzle_ids:
+                  type: array
+                  items:
+                    type: string
+                game_state:
+                  type: array
+                  items:
+                    type: string
+                  example: ["opening", "midgame"]
+      responses:
+        "200":
+          description: Successfully filtered game states using ML predictions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Missing puzzle IDs.
+
+  /rdf-recommendations:
+    post:
+      summary: Retrieve RDF-based recommendations
+      description: Returns a list of recommended chess puzzles based on puzzle IDs using RDF similarity.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                puzzle_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Successfully retrieved RDF-based recommendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Missing required puzzle IDs.
+
+  /ml-recommendations:
+    post:
+      summary: Retrieve ML-based recommendations
+      description: Uses an ML model to recommend chess puzzles based on extracted image features.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                puzzle_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Successfully retrieved ML-based recommendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "400":
+          description: Missing required puzzle IDs.
+
+  /images/{filename}:
+    get:
+      summary: Retrieve chess puzzle image
+      description: Fetches an image file from the dataset.
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          description: The name of the image file.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Image retrieved successfully.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Image not found.
+
+  /initial:
+    get:
+      summary: Retrieve initial chess puzzles
+      description: Loads an initial set of chess puzzles when the application starts.
+      responses:
+        "200":
+          description: Successfully retrieved initial puzzles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Puzzle"
+        "500":
+          description: Server error while loading initial puzzles.
+
+components:
+  schemas:
+    Puzzle:
+      type: object
+      properties:
+        index:
+          type: integer
+        filename:
+          type: string
+        puzzle_id:
+          type: string
+        next_player:
+          type: string
+        white_pieces:
+          type: object
+          properties:
+            kings:
+              type: string
+            queens:
+              type: string
+            rooks:
+              type: string
+            bishops:
+              type: string
+            knights:
+              type: string
+            pawns:
+              type: string
+        black_pieces:
+          type: object
+          properties:
+            kings:
+              type: string
+            queens:
+              type: string
+            rooks:
+              type: string
+            bishops:
+              type: string
+            knights:
+              type: string
+            pawns:
+              type: string
+        game_state:
+          type: string
+          enum: ["opening", "midgame", "endgame"]
+        metadata:
+          type: object
+          properties:
+            "@context":
+              type: string
+              example: "http://schema.org/"
+            "@type":
+              type: string
+              example: "ImageObject"
+            identifier:
+              type: string
+            name:
+              type: string
+            contentUrl:
+              type: string
+            encodingFormat:
+              type: string
+              example: "image/png"
+        dominant_feature:
+          type: string
+          description: Feature determining puzzle recommendation.

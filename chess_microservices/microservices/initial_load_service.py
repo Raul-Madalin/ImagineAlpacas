@@ -11,6 +11,7 @@ def get_initial_images():
     """
     sparql_query = """
     PREFIX chess: <http://imaginealpacas.org/chess/>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     SELECT ?image ?puzzle_id
     WHERE {
         ?image chess:puzzle_id ?puzzle_id .
