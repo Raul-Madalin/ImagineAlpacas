@@ -1,4 +1,4 @@
-# ImagineAlpacas - Chess Ontology Application
+# Chess Ontology Application
 
 ## **Overview**
 This application allows users to explore chess puzzles using RDF data, search and filter puzzles based on piece configurations, and receive recommendations for similar puzzles.
