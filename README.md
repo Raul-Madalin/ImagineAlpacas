@@ -21,7 +21,7 @@ This application allows users to explore chess puzzles using RDF data, search an
 
 ---
 
-## **1. Backend: Flask API (Microservices) + ML using K-NN and CNN **
+## 1. Backend: Flask API (Microservices) + ML using K-NN and CNN
 ### **Purpose**
 - Handles search, filtering, recommendations, image serving, and initial loading of chess puzzles.
 - Connects to GraphDB for RDF-based chess ontology queries.
