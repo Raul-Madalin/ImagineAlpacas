@@ -15,7 +15,7 @@ This application allows users to explore chess puzzles using RDF data, search an
 - React [here](http://54.226.17.197:3000)
 - Flask [here](http://54.157.41.92:5000)
 
-### ** Preview **
+### **Preview**
 
 ![preview](./screenshot.png)
 
