@@ -8,6 +8,7 @@ This application allows users to explore chess puzzles using RDF data, search an
 - OpenAPI documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/openapi.yaml).
 - Tehnical documentation [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/blob/main/report.html).
 - Overall progress [here](https://github.com/Raul-Madalin/WADe_ImagineAlpacas/wiki/Project-Progress).
+- Dataset [here](https://www.kaggle.com/datasets/koryakinp/chess-positions/data).
 
 ### **AWS Deployment** - *shutdown at the moment*
 
